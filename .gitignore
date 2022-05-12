@@ -1,0 +1,14 @@
+#vscode
+.vscode/
+lib/
+__pycache__/
+*.py[cod]
+*$py.class
+
+#Django stuff:
+local_settings.py
+*.sqlite3
+LX_SEGY2.segy
+*.TIF
+遥感.TIF
+
