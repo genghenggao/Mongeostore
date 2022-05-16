@@ -81,7 +81,7 @@
         >
         <el-form-item>
           <el-button
-            style="width: 100%;background: #505458;border: none"
+            style="width: 100%; background: #505458; border: none"
             icon
             :loading="logining"
             :disabled="true"
@@ -91,7 +91,7 @@
           >
           <el-button
             type="primary"
-            style="width: 100%;background: #505458;border: none"
+            style="width: 100%; background: #505458; border: none"
             icon
             :loading="logining"
             v-else-if="isLogin"
@@ -101,7 +101,6 @@
         </el-form-item>
       </el-form>
     </div>
-    <!-- <el-button :plain="true" @click="open4">错误</el-button> -->
   </div>
 </template>
 
@@ -112,7 +111,7 @@ import Navbar from "@/components/Navbar.vue";
 export default {
   name: "Register",
   components: {
-    Navbar
+    Navbar,
   },
   data() {
     // <!--验证账号-->
@@ -128,20 +127,18 @@ export default {
           this.Register.username;
         axios
           .get(url, {
-            responseType: "json"
+            responseType: "json",
           })
-          .then(response => {
+          .then((response) => {
             // 表示后端发送短信成功
             if (response.data.count > 0) {
               console.log("用户名已存在");
-              // alert("用户名已存在了啊");
               callback(new Error("用户名已存在，请重新输入"));
             } else {
-              // element ui 表单验证 this.$refs[formName].validate()里面的内容死活不执行
               callback();
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error.response);
           });
       }
@@ -154,24 +151,22 @@ export default {
         // callback();
         // 检查重名
         const url =
-          // this.host + "/smscode/?mobile=" + this.mobile ;
           "http://127.0.0.1:8000/api/email/?email=" + this.Register.email;
         axios
           .get(url, {
-            responseType: "json"
+            responseType: "json",
           })
-          .then(response => {
+          .then((response) => {
             // 表示后端发送短信成功
             if (response.data.count > 0) {
               console.log("邮箱已存在");
               // alert("邮箱已存在");
               callback(new Error("邮箱已存在，请重新输入"));
             } else {
-              // element ui 表单验证 this.$refs[formName].validate()里面的内容死活不执行
               callback();
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error.response);
           });
       }
@@ -198,36 +193,25 @@ export default {
     let checkTel = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入手机号码"));
-      }
-      // else if (!this.checkMobile(value)) {
-      //   callback(new Error("请输入正确的11位手机号码！！！！"));
-      //   // callback(new Error("手机号已存在"));
-      // }
-      else {
-        // callback();
+      } else {
         // 检查重名
         const url =
-          // this.host + "/smscode/?mobile=" + this.mobile ;
           "http://127.0.0.1:8000/api/mobile/?mobile=" + this.Register.mobile;
         axios
           .get(url, {
-            responseType: "json"
+            responseType: "json",
           })
-          .then(response => {
+          .then((response) => {
             // 表示后端发送短信成功
             if (response.data.count > 0) {
               console.log("手机号已存在");
               // alert("手机号已存在");
               callback(new Error("手机号已存在，请重新输入"));
             } else {
-              // let time = 60;
-              // this.buttonText = "已发送";
-              // this.isDisabled = true;
-              // element ui 表单验证 this.$refs[formName].validate()里面的内容死活不执行
               callback();
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.log(error.response);
           });
       }
@@ -238,32 +222,6 @@ export default {
         callback(new Error("请输入手机验证码"));
       } else {
         callback();
-        // 检查重名
-        // const url =
-        //   // this.host + "/smscode/?mobile=" + this.mobile ;
-        //   "http://127.0.0.1:8000/api/smscode/?smcode=" + this.Register.smscode;
-        // axios
-        //   .get(url, {
-        //     responseType: "json"
-        //   })
-        //   .then(response => {
-        //     // 表示后端发送短信成功
-        //     if (response.data.status_code != 200) {
-        //       console.log("手机验证码错误");
-        //       console.log(response.data.status_code);
-        //       // alert("手机号已存在");
-        //       callback(new Error("手机验证码错误，请重新输入"));
-        //     } else {
-        //       // let time = 60;
-        //       // this.buttonText = "已发送";
-        //       // this.isDisabled = true;
-        //       // element ui 表单验证 this.$refs[formName].validate()里面的内容死活不执行
-        //       callback();
-        //     }
-        //   })
-        //   .catch(error => {
-        //     console.log(error.response);
-        //   });
       }
     };
     return {
@@ -273,68 +231,65 @@ export default {
         mobile: "",
         password: "",
         password2: "",
-        smscode: ""
+        smscode: "",
       },
       rules: {
         username: [
           { required: true, message: "请输入账号", trigger: "blur" },
           {
-            // pattern: /^(?!(\d+)$)[a-zA-Z\d_]{4,20}$/,
             pattern: /^[a-zA-Z0-9_-]{5,20}$/,
             message: "账号长度5-20，可包括数字字母下划线",
-            trigger: "blur"
+            trigger: "blur",
           },
-          { validator: checkUsername, trigger: "blur" }
+          { validator: checkUsername, trigger: "blur" },
         ],
         email: [
           { required: true, message: "请输入邮箱", trigger: "blur" },
           {
-            pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+            pattern:
+              /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
             message: "请输入有效邮箱",
-            trigger: "blur"
+            trigger: "blur",
           },
-          { validator: checkEmail, trigger: "blur" }
+          { validator: checkEmail, trigger: "blur" },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
           {
-            // pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
             pattern: /^[a-zA-Z0-9_-]{6,20}$/,
             message: "密码长度为6-20位，可以为数字、字母",
-            trigger: "blur"
+            trigger: "blur",
           },
-          { validator: checkPassword, trigger: "blur" }
+          { validator: checkPassword, trigger: "blur" },
         ],
         password2: [
           { required: true, message: "请确认输入密码", trigger: "blur" },
           {
-            // pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
             pattern: /^[a-zA-Z0-9_-]{6,20}$/,
             message: "密码长度为6-20位，可以为数字、字母",
-            trigger: "blur"
+            trigger: "blur",
           },
-          { validator: checkPassword2, trigger: "blur" }
+          { validator: checkPassword2, trigger: "blur" },
         ],
         mobile: [
           { required: true, message: "请输入手机号", trigger: "blur" },
           {
             pattern: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
             message: "请输入正确的11位手机号码",
-            trigger: "blur"
+            trigger: "blur",
           },
-          { validator: checkTel, trigger: "blur" }
+          { validator: checkTel, trigger: "blur" },
         ],
         smscode: [
           { required: true, message: "请输入短信验证码", trigger: "blur" },
           {
             pattern: /^[0-9]{4}$/,
             message: "输入四位数字验证码",
-            trigger: "blur"
+            trigger: "blur",
           },
-          { validator: checkSmscode, trigger: "blur" }
-        ]
+          { validator: checkSmscode, trigger: "blur" },
+        ],
       },
-      // activeName: "first",
       buttonText: "获取验证码",
       isDisabled: false, // 是否禁止点击发送验证码按钮
       flag: true,
@@ -343,7 +298,7 @@ export default {
       disabled: 0,
       isLog: false,
       isLogin: false,
-      logining: false
+      logining: false,
     };
   },
   watch: {
@@ -357,7 +312,7 @@ export default {
     },
     Register: {
       // 判断注册按钮状态
-      handler: function(val, oldval) {
+      handler: function (val, oldval) {
         if (
           val.username != "" &&
           val.email != "" &&
@@ -372,27 +327,19 @@ export default {
           this.isLogin = false;
         }
       },
-      deep: true //对象内部的属性监听，也叫深度监听
-    }
+      deep: true, //对象内部的属性监听，也叫深度监听
+    },
   },
   created() {
-    // console.log($);
-    // console.log("1111");
   },
   methods: {
-    //密码判断渲染，true:暗文显示，false:明文显示
     changePass(value) {
       this.visible = !(value === "show");
     },
 
     // <!--发送验证码-->
     sendCode() {
-      // let tel = this.Register.mobile;
-      // if (this.checkMobile(tel)) {
-      //   console.log(tel);
       let time = 60;
-      // this.buttonText = "已发送";
-      // this.isDisabled = true;
 
       // 向后端接口发送请求，让后端发送短信验证码
       const url =
@@ -401,11 +348,11 @@ export default {
       axios
         .get(url, {
           params: {
-            tpl: "register" //让后端判断是注册还是登录，用来获取短信验证码
+            tpl: "register", //让后端判断是注册还是登录，用来获取短信验证码
           },
-          responseType: "json"
+          responseType: "json",
         })
-        .then(response => {
+        .then((response) => {
           // 表示后端发送短信成功
           if (this.flag) {
             // 倒计时60秒，60秒后允许用户再次点击发送短信验证码的按钮
@@ -418,17 +365,15 @@ export default {
                 // 如果计时器到最后, 清除计时器对象
                 clearInterval(timer);
                 // 将点击获取验证码的按钮展示的文本回复成原始文本
-                // this.sms_code_message = "获取短信验证码";
                 this.buttonText = "重新获取";
                 // 将点击按钮的onclick事件函数恢复回去
-                // this.sending_flag = false;
                 this.isDisabled = false;
                 this.flag = true;
               }
             }, 1000);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error.response);
           this.sending_flag = false;
         });
@@ -455,10 +400,10 @@ export default {
         password2: this.Register.password2,
         mobile: this.Register.mobile,
         smscode: this.Register.smscode,
-        last: 1 //用于解决后端smscode参数为3019"}多了"}问题
+        last: 1, //用于解决后端smscode参数为3019"}多了"}问题
       });
       console.log("postData" + postData);
-      this.$refs[Register].validate(valid => {
+      this.$refs[Register].validate((valid) => {
         // 为表单绑定验证功能
         if (valid) {
           const url = `http://127.0.0.1:8000/api/register/`;
@@ -467,13 +412,15 @@ export default {
               url,
               {
                 // params: this.userInfo, //params用于get请求
-                data: postData //data用于post请求
+                data: postData, //data用于post请求
               },
               {
-                headers: { "Content-Type": "application/x-www-form-urlencoded" } //用于解决axios post 产生的403错误,这个地方可以考虑一下配置settings.py,在里面配置REST_FARAMEWOTRK={#全局解析} 参考一下：https://dog.wtf/tech/drf-learning-notes-4-the-parsers-module/
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                }, //用于解决axios post 产生的403错误,这个地方可以考虑一下配置settings.py,在里面配置REST_FARAMEWOTRK={#全局解析} 参考一下：https://dog.wtf/tech/drf-learning-notes-4-the-parsers-module/
               }
             )
-            .then(res => {
+            .then((res) => {
               console.log("注册成功走这里");
               console.log(res);
               console.log(res.data);
@@ -486,45 +433,18 @@ export default {
               } else {
                 this.$message({
                   message: "恭喜你，注册成功！",
-                  type: "success"
+                  type: "success",
                 });
                 this.$router.push("/login");
               }
 
-              // if (res.data.EID == 0) {
-              //   var token = res.data.Data[0].token;
-              //   localStorage.setItem("token", token);
-              //   this.$message({
-              //     showClose: true,
-              //     message: "登录成功",
-              //     type: "success"
-              //   });
-              //   this.$router.push({ path: "/index" });
-              // } else {
-              //   this.$message({
-              //     showClose: true,
-              //     message: res.data.Err,
-              //     type: "warning"
-              //   });
-              // }
+       
             })
-            .catch(error => {
+            .catch((error) => {
               // console.log(error);
               console.log("走的是catch");
               console.log("....");
-              // console.log(error.data.status_code);
-              // if (error.data.status_code == 500) {
-              //   alert("验证码失效，或未发送，请重新发送！");
-              //   this.$message.error("验证码失效，或未发送，请重新发送！");
-              // } else {
-              //   alert("验证码错误，请重新输入");
-              //   this.$message.error("验证码错误，请重新输入");
-              // }
-              // alert("验证码失效，或未发送，请重新发送！");
-              // this.$message({
-              //   message: res.message,
-              //   type: "error"
-              // });
+           
             });
           console.log("无论成功与否都走一遍");
           // this.$router.push("/login");
@@ -533,32 +453,13 @@ export default {
           return false;
         }
       });
-    }
+    },
 
-    //   axios
-    //     .get("http://127.0.0.1:8000/api/register", {
-    //       name: this.Register.username,
-    //       email: this.Register.email,
-    //       mobile: this.Register.mobile,
-    //       password: this.Register.password
-    //     })
-    //     .then(res => {
-    //       console.log("输出response.data", res.data);
-    //       // console.log("输出response.data.status", res.data.status);
-    //       if (res.data.status === 200) {
-    //         this.$router.push({
-    //           path: "/"
-    //         });
-    //       } else {
-    //         alert("您输入的用户名已存在！");
-    //       }
-    //     });
-    // }
-  }
+
+  },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style lang="scss" scoped>
 h1 {

@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-03 16:52:28
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-16 16:08:53
+ * @LastEditTime: 2022-05-13 10:55:11
 -->
 <template>
   <div class="mongoestore_home">
@@ -14,17 +14,7 @@
         <el-container class="act_one wow fadeInUp" data-wow-duration="0.5s">
           <!-- <el-row :gutter="10" style="margin-right: auto; margin-left: auto"> -->
           <el-row :gutter="10" style="margin: auto">
-            <!-- <el-col :xl="24" :offset="10"> -->
-            <!-- <el-col :xl="8">&nbsp;</el-col> -->
-            <!-- <el-col :xl="8">1</el-col> -->
             <el-col :xl="24">
-              <!-- <h1>MonGeoStore管理系统</h1> -->
-              <!-- <p>
-                系统主要使用Django框架，整合MongoDB数据库。
-                该系统主要用于解决海量地震数据的存储、管理，为地质工作者提供更好的服务。
-              </p> -->
-              <!-- <img src="@/assets/images/yanshitu.jpg" alt="" /> -->
-              <!-- <img src="@/assets/images/logo_theme_GM.png" alt="" /> -->
               <div style="padding-top: 120px">
                 <!--动态将图片轮播图的容器高度设置成与图片一致-->
                 <el-carousel :height="bannerHeight + 'px'">
@@ -58,8 +48,6 @@
               <p>
                 系统主要由中国矿业大学（北京）煤炭资源与安全开采国家重点实验室负责运维,数据来源于全国各地，旨在搭建一个综合信息的地学数据管理系统，<br />更好的为地学科研人员提供帮助与服务。
               </p>
-              <!-- </el-col> -->
-              <!-- <el-col :xl="24"> -->
               <div class="extra_map">
                 <InfoFlowMap />
               </div>
@@ -75,7 +63,6 @@
             :gutter="120"
             style="margin-right: auto; margin-left: auto; width: 60%"
           >
-            <!-- <el-row> -->
             <el-col :xl="8">
               <a href="https://www.cnblogs.com/genghenggao/" target="_blank">
                 <img
@@ -544,14 +531,6 @@ export default {
   line-height: 35px;
 }
 
-// 轮播
-// .el-carousel__item h3 {
-//   color: #475669;
-//   font-size: 14px;
-//   opacity: 0.75;
-//   line-height: 200px;
-//   margin: 0;
-// }
 
 .el-carousel__item:nth-child(2n) {
   background-color: #99a9bf;
@@ -576,13 +555,9 @@ export default {
 }
 
 .act_one_extra {
-  // margin-top: 70px;
-  // background: url("../assets/images/home-bg.jpg");
   background-size: cover;
 
   width: 100%;
-  // padding: 0;
-  // color: #582b2b;
   text-align: center;
 }
 .act_one_extra h1 {
@@ -612,8 +587,6 @@ export default {
   color: #000000;
 }
 .act_three {
-  // padding: 20px 30px 50px 380px;
-  // padding: 80px 0 0 400px;
   background: #f8f8f8;
   padding-top: 100px;
 }
@@ -627,8 +600,6 @@ export default {
 }
 
 .act_four {
-  // padding: 20px 30px 50px 380px;
-  // padding: 80px 0 0 400px;
   padding-top: 80px;
   background: #f8f8f8;
 }
@@ -680,8 +651,6 @@ export default {
 
 .act_six {
   background: #f8f8f8;
-  // padding: 80px 0;
-  // padding: 80px 350px 80px 400px;
   padding-top: 80px;
   padding-bottom: 80px;
   text-align: center;
@@ -697,14 +666,10 @@ export default {
   width: 100%;
   height: 100%;
   background: url("../assets/images/address.png") no-repeat;
-  // padding: 90px 0;
-  // opacity: 0.8;
 }
 .act_seven {
   padding-top: 60px;
   padding-bottom: 60px;
-  // padding-left: 150px;
-  // padding: 80px 400px 80px 400px;
   background-color: rgba(5, 5, 19, 0.671);
 
   background-size: cover;

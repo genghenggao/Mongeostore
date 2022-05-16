@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-08-31 15:03:39
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-27 19:15:39
+ * @LastEditTime: 2022-05-13 10:53:01
 -->
 <template>
   <div id="poster">
@@ -38,22 +38,6 @@
           ></el-input>
         </el-form-item>
 
-        <!-- <el-row>
-        <el-col :span="18">
-          <el-form-item prop="picture_code" label="验证码:">
-            <el-input
-              type="text"
-              v-model="Login.picture_code"
-              auto-complete="off"
-              placeholder="请输入图片验证码"
-            ></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <div class="grid-content bg-purple-light"></div>
-        </el-col>
-      </el-row> -->
-
         <el-form-item style="width: 100%">
           <el-popover
             placement="top"
@@ -75,13 +59,11 @@
                   @refresh="onRefresh"
                   :slider-text="text"
                 ></slide-verify>
-                <!-- <div>{{ msg }}</div> -->
-                <!--这个没完成设置文字居中-->
               </div>
             </el-card>
             <el-button
               type="primary"
-              style="width: 100%;background: #505458;border: none"
+              style="width: 100%; background: #505458; border: none"
               slot="reference"
               v-on:click="visible = !visible"
               >登录</el-button
@@ -113,7 +95,7 @@ import Navbar from "@/components/Navbar.vue";
 export default {
   name: "Login",
   components: {
-    Navbar
+    Navbar,
   },
   data() {
     // <!--验证账号-->
@@ -140,7 +122,7 @@ export default {
       text: "向右滑动~",
       Login: {
         username: "",
-        password: ""
+        password: "",
       },
       rules: {
         username: [
@@ -149,9 +131,9 @@ export default {
             // pattern: /^(?!(\d+)$)[a-zA-Z\d_]{4,20}$/,
             pattern: /^[a-zA-Z0-9_-]{5,20}$/,
             message: "账号长度5-20，可包括数字字母下划线",
-            trigger: "blur"
+            trigger: "blur",
           },
-          { validator: checkUsername, trigger: "blur" }
+          { validator: checkUsername, trigger: "blur" },
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
@@ -159,28 +141,22 @@ export default {
             // pattern: /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/,
             pattern: /^[a-zA-Z0-9_-]{6,20}$/,
             message: "密码长度为6-20位，可以为数字、字母",
-            trigger: "blur"
+            trigger: "blur",
           },
-          { validator: checkPassword, trigger: "blur" }
-        ]
-      }
+          { validator: checkPassword, trigger: "blur" },
+        ],
+      },
       // responseResult: []
     };
   },
   watch: {},
   methods: {
     onSuccess(Login) {
-      // let username = this.Login.username;
-      // let password = this.Login.password;
       let postData = qs.stringify({
         first: 1, //用于解决第一个参数为None设置的无用参数，现在我还不知道为什么，但这样可以解决，以后发现根本再来补充
         username: this.Login.username,
-        // email: this.Login.email,
         password: this.Login.password,
-        // password2: this.Login.password2,
-        // mobile: this.Login.mobile,
-        // smscode: this.Login.smscode,
-        last: 1 //用于解决后端smscode参数为3019"}多了"}问题
+        last: 1, //用于解决后端smscode参数为3019"}多了"}问题
       });
       console.log(postData);
       // console.log(postData.username);
@@ -191,27 +167,22 @@ export default {
           {
             // params: this.userInfo, //params用于get请求
             data: postData,
-            responseType: "json"
+            responseType: "json",
           },
           {
-            headers: { "Content-Type": "application/x-www-form-urlencoded" }
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
           }
         )
-        .then(response => {
+        .then((response) => {
           console.log("优雅的分割线");
-          // console.log(response.data.username);
-          // console.log(response.data.password);
           console.log(response.data.status_code);
           console.log(response);
           // 登录成功，定向到首页
           if (response.data.status_code == 200) {
-            // _this.$store.commit("login", _this.loginForm);
-            // var path = this.$route.query.redirect;
-            // var path = '/mongeostore';
-            var path = '/mongeostorehome';
+            var path = "/mongeostorehome";
             console.log(path);
             this.$router.replace({
-              path: path === "/" || path === undefined ? "/" : path
+              path: path === "/" || path === undefined ? "/" : path,
             });
           } else if (response.data.status_code == 502) {
             // alert("用户不存在")
@@ -225,46 +196,19 @@ export default {
           }
           console.log("....");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("....");
         });
-      // this.$router.push("/index");
-      // this.msg = "登录成功~";
-      // this.$message({
-      //   message: "恭喜你，注册成功！",
-      //   type: "success"
-      // });
+
     },
     onFail() {
-      // this.msg = "登录失败！";
       this.$message.error("验证码不正确，登录失败");
     },
     onRefresh() {
-      // this.msg = "重新生成验证码";
       this.$message.error("重新生成验证码，请稍后...");
-    }
+    },
 
-    // login() {
-    //   var _this = this;
-    //   console.log(this.$store.state);
-    //   this.$api
-    //     .post("/login", {
-    //       username: this.loginForm.username,
-    //       password: this.loginForm.password
-    //     })
-    //     .then(successResponse => {
-    //       if (successResponse.data.code === 200) {
-    //         _this.$store.commit("login", _this.loginForm);
-    //         var path = this.$route.query.redirect;
-    //         this.$router.replace({
-    //           path: path === "/" || path === undefined ? "/index" : path
-    //         });
-    //       }
-    //     })
-    //     // eslint-disable-next-line no-unused-vars
-    //     .catch(failResponse => {});
-    // }
-  }
+  },
 };
 </script>
 
@@ -285,7 +229,6 @@ export default {
   padding-top: 100px;
   height: 800px;
   position: absolute;
-
 }
 // 登录框位置
 form.el-form.login-container.el-form--label-left {

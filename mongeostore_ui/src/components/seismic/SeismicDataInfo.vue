@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-16 10:41:26
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-16 18:43:53
+ * @LastEditTime: 2022-05-13 15:15:18
 -->
 <template>
   <el-container style="min-width: 1100px; overflow: hidden">
@@ -23,9 +23,7 @@
       </h2>
     </el-header>
     <el-main style="padding-top: 10px; min-width: 1100px; overflow: hidden">
-      <!-- <div style="">
-        <h3>钻孔编号：{{ ZK_num }}</h3>
-      </div> -->
+
       <el-row :gutter="20" style="margin: 0">
         <el-col :span="16" :offset="4">
           <el-tabs :tab-position="tabPosition">
@@ -260,7 +258,6 @@ export default {
   },
   created() {
     this.showMetaData();
-    // this.tableData = JSON.parse(JSON.stringify(this.tableData));
   },
   methods: {
     //   折叠面板
@@ -270,23 +267,6 @@ export default {
     showMetaData() {
       console.log(typeof this.tableData);
       console.log(this.tableData);
-      // let url = "http://127.0.0.1:8000/load/commonmetashow/";
-      // axios
-      //   .get(url, {
-      //     params: {
-      //       // 每页显示的条数
-      //       PageSize: n1,
-      //       // 显示第几页
-      //       currentPage: n2,
-      //     },
-      //   })
-      //   .then((res) => {
-      //     console.log("success");
-      //     console.log(res.data);
-      //   })
-      //   .catch((err) => {
-      //     console.log("err");
-      //   });
     },
   },
 };

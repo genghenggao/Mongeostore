@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-01 08:57:34
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-14 21:27:03
+ * @LastEditTime: 2022-05-13 11:11:46
 -->
 
 <template>
@@ -13,55 +13,7 @@
     <!-- 子导航 -->
     <el-container>
       <el-header class="maincontent_header">
-        <!-- <nav>
-          <div
-            class="nav nav-tabs"
-            id="nav-tab"
-            role="tablist"
-            style="min-width: 1100px"
-          >
-            <a
-              class="nav-item nav-link active"
-              id="nav-home-tab"
-              data-toggle="tab"
-              href="#nav-home"
-              role="tab"
-              aria-controls="nav-home"
-              aria-selected="true"
-              ><i class="el-icon-s-home"></i>首页</a
-            >
-            <a
-              class="nav-item nav-link"
-              id="nav-profile-tab"
-              data-toggle="tab"
-              href="#nav-profile"
-              role="tab"
-              aria-controls="nav-profile"
-              aria-selected="false"
-              ><i class="el-icon-s-data"></i>钻孔数据</a
-            >
-            <a
-              class="nav-item nav-link"
-              id="nav-metadata-tab"
-              data-toggle="tab"
-              href="#nav-metadata"
-              role="tab"
-              aria-controls="nav-metadata"
-              aria-selected="false"
-              ><i class="el-icon-document"></i>钻孔信息</a
-            >
-            <a
-              class="nav-item nav-link"
-              id="nav-uploadfile-tab"
-              data-toggle="tab"
-              href="#nav-uploadfile"
-              role="tab"
-              aria-controls="nav-uploadfile"
-              aria-selected="false"
-              ><i class="el-icon-top"></i>上传数据</a
-            >
-          </div>
-        </nav> -->
+ 
         <el-menu
           router
           :default-active="activeIndex"
@@ -131,8 +83,6 @@ export default {
     };
   },
   mounted() {
-    //  _this.activeIndex=window.location.href.split('/')[4];
-    //  console.log(window.location.href.split('/'));
     this.activeIndex = "/mongeostore/drillmetahome";
   },
   methods: {
@@ -144,10 +94,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .maincontent {
-//   // height: 821px;
-//   // height: 850px;
-// }
+
 /* 导航子标题 */
 .maincontent_header {
   /* 固定高度 */
@@ -159,12 +106,8 @@ export default {
 /* maincontent子导航 */
 .maincontent div#nav-tab {
   height: 46px;
-  /* width: 100%; */
-  /* background-color: rgba(21, 132, 197, 0.5); */
   background-color: #870000;
-  /* position: static; */
 }
-/* maincontent子导航 字体 */
 .maincontent div#nav-tab a {
   color: #ac8585;
 }
@@ -173,10 +116,7 @@ export default {
   font-size: 25px;
   padding-bottom: 6px;
 }
-// div#nav-tabContent {
-//   // height: 775px;
-//   // height: 780px;
-// }
+
 .el-menu-demo {
   height: 46px;
   background-color: #870000;

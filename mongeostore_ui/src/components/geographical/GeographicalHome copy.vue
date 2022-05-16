@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2021-01-08 18:57:55
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-24 09:04:17
+ * @LastEditTime: 2022-05-13 11:15:17
 -->
 <template>
   <div class="update-demo" style="background: black; height: 811px">
@@ -73,18 +73,11 @@ export default {
     updateHandler() {
       const { config } = this;
 
-      /**
-       * 只是这样做是无效
-       * config指向的内存地址没有发生变化
-       * 组件无法侦知数据变化
-       */
+
       this.config.value = 90;
       this.config.lineDash = [10, 4];
 
-      /**
-       * 使用ES6拓展运算符生成新的props对象
-       * 组件侦知数据变化 自动刷新状态
-       */
+
       this.config = { ...this.config };
     },
   },

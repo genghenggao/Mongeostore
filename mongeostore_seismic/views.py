@@ -4,7 +4,7 @@ version: v1.0.0
 Author: henggao
 Date: 2020-12-16 21:36:57
 LastEditors: henggao
-LastEditTime: 2021-04-13 20:07:41
+LastEditTime: 2022-05-13 15:55:31
 '''
 import gridfs
 from mongeostore_v1 import settings
@@ -36,13 +36,9 @@ from rest_framework.views import APIView
 
 class MyPagination(PageNumberPagination):
     page_size = 10  # 每页显示数据的数量
-
     max_page_size = 100   # 每页最多可以显示的数据数量
-
     page_query_param = 'currentPage'  # 获取页码时用的参数,当前页码
-
     page_size_query_param = 'PageSize'  # 调整每页显示数量的参数名，每页数据大小
-
     # 指定返回格式，根据需求返回一个总页数，数据存在results字典里返回
 
     def get_paginated_response(self, data):
@@ -71,7 +67,6 @@ class SeismicInfoView(APIView):
         docstring
         """
         seismic_obj = SeismicInfo.objects.all().order_by('_id')  # 一定要排序
-        # print(seismic_obj)
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -87,11 +82,6 @@ class SeismicInfoView(APIView):
         docstring
         """
         fileio = request.FILES.get("file", None)  # 注意比较
-
-        # print(request.data['upload_date'])  # DRF才有request.data
-        # print(request.POST)  # Django只有request.POST、request.GET
-        # print(request.data)
-        # _id = self.request.POST.get('id')
         seismic_filename = request.data['seismic_filename'],  # 取出来竟是个元组，QAQ
         location = request.data['location'],
         company_name = request.data['company_name'],
@@ -100,12 +90,10 @@ class SeismicInfoView(APIView):
         seismic_upload_date = request.data['seismic_upload_date'],
         # 上传到GriDFS中
         filename = request.data['filename'],
-
         temp_time2 = int(seismic_upload_date[0])/1000
         # 转换成localtime
         time_local2 = time.localtime(temp_time2)
         # 转换成新的时间格式(2016-05-05 20:28:54)
-
         dt2 = time.strftime("%Y-%m-%d", time_local2)
 
         # 保存到本地
@@ -126,7 +114,6 @@ class SeismicInfoView(APIView):
             # 写入GridFS
             write_data.filedata.put(
                 fd, content_type='segy', filename=seismic_filename[0], aliases=[filename[0]])
-            # writedata.filedata.put(SeismicInfo, content_type='segy')
         write_data.save()
 
         return HttpResponse('success')
@@ -136,11 +123,8 @@ class SeismicInfoView(APIView):
 
 def EditSeismicInfo(request):
     if request.method == "POST":
-
         body_data = request.body
         data_json = json.loads(body_data)
-        # print(data_json)
-
         query_data_json = data_json['json_data']
         dict_data = json.loads(query_data_json)
         dict_data.pop('filedata')  # 去掉文件字段
@@ -166,18 +150,13 @@ def DeleteSeismicInfo(request):
     """
     if request.method == "POST":
         body_data = request.body
-        # print(body_data)
         data_json = json.loads(body_data)
-        # print(data_json)
         query_data_json = data_json['json_data']
-        # print(query_data_json)
         dict_data = json.loads(query_data_json)
-        print(dict_data)
         front_query_oid = dict_data['id']
 
         query_obj = SeismicInfo.objects.get(
             id=front_query_oid)
-        print(query_obj)
         query_obj.delete()
         return HttpResponse("Delete Success")
 
@@ -187,12 +166,9 @@ class SeismicInfoSearch(APIView):
         """
         docstring
         """
-        # print('success')
         search_key = request.GET['search_key']  # 根据字段搜索
-        # print(search_key)
         seismic_obj = SeismicInfo.objects.filter(
             seismic_filename=search_key).all().order_by('_id')  # 一定要排序
-        # seismic_obj = SeismicInfo.objects.search_text(search_key).first()
 
         # 创建分页对象
         page = MyPagination()
@@ -208,39 +184,28 @@ class SeismicInfoSearch(APIView):
 # 地震segy文件下载
 @require_http_methods(['GET'])
 def SeismicFileDownload(request):
-
     search_key = request.GET['file_id']  # 根据字段搜索
-    print(search_key)
-
     # 从数据库拿到数据
     seismic_obj = SeismicInfo.objects(id=search_key).first()
-    print(seismic_obj)
-    print(seismic_obj.seismic_filename)
     filename = seismic_obj.seismic_filename
     seismic_file = seismic_obj.filedata.read()
     content_type = seismic_obj.filedata.content_type
-    # print(type(seismic_file)) #<class 'bytes'>
-    # print(type(content_type)) #<class 'str'>
 
     # 数据写入服务器
     with open("../mongeostore_env/upload/%s" % filename, 'wb') as f:
         f.write(seismic_file)
     print('save success')
-
-    # # 拿到数据,返回前端
+    # 拿到数据,返回前端
     with open("./upload/%s" % filename, "rb") as f:
         res = HttpResponse(f)
         res["Content-Type"] = "application/octet-stream"  # 注意格式
         res["Content-Disposition"] = 'filename="{}"'.format(filename)
     return res
-    # return HttpResponse('success')
 
 
 # 地震数据解析，获取文服务器件
 @require_http_methods(['GET'])
 def SeismicFileRead(request):
-
-    # base_dir = 'c:/'
     base_dir = "././pic/"
     list = os.listdir(base_dir)
 
@@ -257,10 +222,7 @@ def SeismicFileRead(request):
             continue
         # 获取文件的修改时间
         timestamp = os.path.getmtime(path)
-        # print(timestamp)
         # 获取文件的修改时间
-        # ts1 = os.stat(path).st_mtime
-        # print(ts1)
         # 获取文件的大小,结果保留两位小数，单位为MB
         filesize = os.path.getsize(path)
         fsize = filesize/float(1024*1024)
@@ -270,21 +232,14 @@ def SeismicFileRead(request):
 
         date = datetime.datetime.fromtimestamp(timestamp)
         upload_time = date.strftime('%Y-%m-%d %H:%M:%S')
-        # upload_time = date.strftime('%Y-%m-%d')
-        # print(list[i], ' 最近修改时间是: ', date.strftime('%Y-%m-%d %H:%M:%S'))
 
         fileinfo = {
             'filename': list[i],
             'filesize': filesize,
             'upload_time': upload_time,
         }
-        # print(type(fileinfo))
-        # json_str = str(fileinfo)
-        # print(type(json_str))
         list_db.append(fileinfo)
         content = json.dumps(list_db)  # 这个地方要用字符串传到前端去
-    # print(content)
-    # print(type(content))
     return HttpResponse(content, "application/json")
 
 
@@ -295,7 +250,6 @@ def SeismicHeaderQuery(request):
     filename = request.GET.get('filename')
     filequery = request.GET.get('queryparams')
     filequerytype = request.GET.get('querytype')
-    # print(filename)
     content = "..\mongeostore_env\pic\\" + filename
 
     try:
@@ -318,22 +272,16 @@ def SeismicHeaderQuery(request):
                 return HttpResponse(queryinfo)
             elif filequery == 'trace1':
                 datatest = f.trace[0]  # 拿到segy中数据
-                # datatest = datatest.tolist()  #矩阵转列表
                 queryinfo = str(datatest)
-                # print(queryinfo)
-                # print(type(queryinfo))
                 return HttpResponse(queryinfo)
             elif filequery == 'trace1_view':
                 datatest = f.trace[0]  # 拿到segy中数据
                 datatest = datatest.tolist()  # 矩阵转列表
                 queryinfo = str(datatest)
-                # print(queryinfo)
-                # print(type(queryinfo))
                 return HttpResponse(queryinfo)
             elif filequery == 'trace_1':
                 datatest = f.trace[-1]
 
-                # print(str(datatest))
                 queryinfo = str(datatest)
                 return HttpResponse(queryinfo)
             elif filequery == 'trace_1_view':
@@ -344,9 +292,6 @@ def SeismicHeaderQuery(request):
             else:
                 if filequerytype == 'text':
                     datatest = f.trace[int(filequery)]
-                    # print(filequery)
-                    # print(type(filequery))
-                    # print(datatest)
                     queryinfo = str(datatest)
                     return HttpResponse(queryinfo)
                 if filequerytype == 'views':
@@ -358,17 +303,15 @@ def SeismicHeaderQuery(request):
         print('解析错误')
         return HttpResponse('Sorry，查询失败~')
 
-    # return HttpResponse('succes')
 # 地震数据解析，获取服务器文件
+
+
 @require_http_methods(['GET'])
 def SeismicProfileQuery(request):
     # print(request.GET)
     filename = request.GET.get('filename')
     mtrace = request.GET.get('mtrace')
     ntrace = request.GET.get('ntrace')
-    print(mtrace)
-    # print(type(mtrace))
-    print(ntrace)
     content = "..\mongeostore_env\pic\\" + filename
 
     try:
@@ -380,17 +323,11 @@ def SeismicProfileQuery(request):
             subdatalist = []
             for i in range(int(mtrace), int(ntrace)+1):
                 outputdatalist = []
-
-                # datatemp = f.trace[i].tolist()
                 readdata = f.trace[i]
-                # print(readdata)
                 max_value = np.max(readdata)
                 min_value = np.min(readdata)
-                # print(max_value)
-                # print(min_value)
                 max_result = max_value if max_value > - \
                     min_value else -min_value  # 如果条件成立，将x的值赋给result
-                # print(max_result)
                 readdata = readdata/max_result+i
                 n = -1
                 for value in readdata:
@@ -412,29 +349,17 @@ def SeismicProfileQuery(request):
 # 地震数据解析，获取整个地震剖面
 @require_http_methods(['GET'])
 def SeismicProfilePic(request):
-    # print(request.GET)
     filename = request.GET.get('filename')
-    # filequery = request.GET.get('queryparams')
-    # filequerytype = request.GET.get('querytype')
-    # print(filename)
     # 读取文件
-    # image = "..\mongeostore_env\pic_seismic\\" + filename
-    # client = MongoClient("192.168.55.110", 20000)  # 连接MongoDB数据库
     client = settings.MongoDB_cluster_client
-    # db = client.segyfile  # 选定数据库，设定数据库名称为segyfile
     db = client['地震数据管理子系统']  # 选定数据库
     fs = gridfs.GridFS(db, collection='地震勘探数据')  # 连接GridFS集合，名称为元数据
 
-    # file_id = 'o_1em6kq0js1jmsavl1n8q1nma2ock'
     file_name = 'LX_SEGY001.jpg'
     # 读取文件
-    # image = fs.find_one({"$where": "this._id.match(/.*" + file_id + "/)"})
     image = fs.find_one(
         {"$where": "this.filename.match(/.*" + file_name + "/)"})
-    # print(image.name)
     # 这里读取服务器中的数据
-    # image = "..\mongeostore_env\pic_seismic\\" + 'LX_SEGY001.jpg'
-
     content = image.read()
     temp_data = base64.b64encode(content)  # 图片base64
     # print(temp_data)
@@ -444,8 +369,6 @@ def SeismicProfilePic(request):
 # 地震数据解析，删除服务器文件
 @require_http_methods(['POST'])
 def SeismicAnalysisDelete(request):
-    # filename1 = request.POST
-    # print(filename1)
     filename = request.POST.get('filename')
     print(filename)
     content = "..\mongeostore_env\pic\\" + filename
@@ -460,15 +383,12 @@ class SeismicAnalysisUpload(APIView):
         """
         docstring
         """
-        # print("走的是GET方法")
         response = {}
         response['code'] = 200
-        # response["Access-Control-Allow-Methods"] = "POST"
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     def post(self, request):
         File = request.FILES.get("file", None)
-        # filename = request.POST.get('filename')
         # 保存到本地
         if not os.path.exists('pic/'):
             os.mkdir('pic/')
@@ -479,18 +399,13 @@ class SeismicAnalysisUpload(APIView):
         return HttpResponse('success')
 
 
-# 地震数据解析，下载云端数据
-# @require_http_methods(['GET'])
 @accept_websocket
 def AnalysisCloudDown(request):
-
     if request.is_websocket():  # 如果请求是websocket请求：
-
         WebSocket = request.websocket
         print(WebSocket)
         i = 0  # 设置发送至前端的次数
         messages = {}
-
         while True:
             i += 1  # 递增次数 i
             time.sleep(1)  # 休眠1秒
@@ -511,35 +426,18 @@ def AnalysisCloudDown(request):
                 # 数据写入服务器
                 RECORD_SIZE = 1024*40  # 单位是B
                 with open("../mongeostore_env/pic/%s" % filename, 'wb') as f:
-                    # f.write(seismic_file)
-                    # print(f.tell())
-                    # print('save success')
                     records = iter(partial(seismic_file, RECORD_SIZE), b'')
                     for r in records:
                         f.write(r)
                         percent = int(f.tell()*100/seismic_filensize)
-                        # print(percent)
-                        # print(percent)
-                        # print(f.tell())
-                        # return HttpResponse(percent)
 
                         # 设置发送前端的数据
                         messages = {
-                            # 'time': time.strftime('%Y.%m.%d %H:%M:%S', time.localtime(time.time())),
-                            # 'server_msg': 'send %d times!' % i,
                             'client_msg': client_msg,
                             'percent': percent
                         }
                         request.websocket.send(json.dumps(messages))
-            # else:
-            #     # 设置发送前端的数据
-            #     messages = {
-            #         'time': time.strftime('%Y.%m.%d %H:%M:%S', time.localtime(time.time())),
-            #         'server_msg': 'send %d times!' % i,
-            #     }
 
-            #     # 设置发送数据为json格式
-            #     request.websocket.send(json.dumps(messages))
     else:
         try:  # 如果是普通的http方法
             message = request.GET['message']
@@ -556,7 +454,6 @@ class RemoteInfoView(APIView):
         docstring
         """
         remote_obj = RemoteInfo.objects.all().order_by('_id')  # 一定要排序
-        # print(seismic_obj)
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -572,11 +469,6 @@ class RemoteInfoView(APIView):
         docstring
         """
         fileio = request.FILES.get("file", None)  # 注意比较
-
-        # print(request.data['upload_date'])  # DRF才有request.data
-        # print(request.POST)  # Django只有request.POST、request.GET
-        # print(request.data)
-        # _id = self.request.POST.get('id')
         remote_filename = request.data['remote_filename'],  # 取出来竟是个元组，QAQ
         location = request.data['location'],
         company_name = request.data['company_name'],
@@ -585,14 +477,11 @@ class RemoteInfoView(APIView):
         remote_upload_date = request.data['remote_upload_date'],
         # 上传到GriDFS中
         filename = request.data['filename'],
-
         temp_time2 = int(remote_upload_date[0])/1000
         # 转换成localtime
         time_local2 = time.localtime(temp_time2)
         # 转换成新的时间格式(2016-05-05 20:28:54)
-
         dt2 = time.strftime("%Y-%m-%d", time_local2)
-
         # 保存到本地
         if not os.path.exists('upload/'):
             os.mkdir('upload/')
@@ -620,16 +509,12 @@ class RemoteInfoView(APIView):
 # 遥感数据编辑数据
 def EditRemoteInfo(request):
     if request.method == "POST":
-
         body_data = request.body
         data_json = json.loads(body_data)
-        # print(data_json)
-
         query_data_json = data_json['json_data']
         dict_data = json.loads(query_data_json)
         dict_data.pop('filedata')  # 去掉文件字段
         front_query_oid = dict_data['id']
-
         query_obj = RemoteInfo.objects.get(
             id=front_query_oid)
         print(query_obj)
@@ -651,15 +536,11 @@ def DeleteRemoteInfo(request):
     """
     if request.method == "POST":
         body_data = request.body
-        # print(body_data)
         data_json = json.loads(body_data)
-        # print(data_json)
         query_data_json = data_json['json_data']
-        # print(query_data_json)
         dict_data = json.loads(query_data_json)
         print(dict_data)
         front_query_oid = dict_data['id']
-
         query_obj = RemoteInfo.objects.get(
             id=front_query_oid)
         print(query_obj)
@@ -674,13 +555,9 @@ class RemoteInfoSearch(APIView):
         """
         docstring
         """
-        # print('success')
         search_key = request.GET['search_key']  # 根据字段搜索
-        # print(search_key)
         remote_obj = RemoteInfo.objects.filter(
             remote_filename=search_key).all().order_by('_id')  # 一定要排序
-        # seismic_obj = SeismicInfo.objects.search_text(search_key).first()
-
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -695,20 +572,12 @@ class RemoteInfoSearch(APIView):
 # 遥感数据下载数据
 @require_http_methods(['GET'])
 def RemoteFileDownload(request):
-
     search_key = request.GET['file_id']  # 根据字段搜索
-    print(search_key)
-
     # 从数据库拿到数据
     remote_obj = RemoteInfo.objects(id=search_key).first()
-    print(remote_obj)
-    print(remote_obj.remote_filename)
     filename = remote_obj.remote_filename
     remote_file = remote_obj.filedata.read()
     content_type = remote_obj.filedata.content_type
-    # print(type(seismic_file)) #<class 'bytes'>
-    # print(type(content_type)) #<class 'str'>
-
     # 数据写入服务器
     with open("../mongeostore_env/upload/%s" % filename, 'wb') as f:
         f.write(remote_file)
@@ -720,7 +589,6 @@ def RemoteFileDownload(request):
         res["Content-Type"] = "application/octet-stream"  # 注意格式
         res["Content-Disposition"] = 'filename="{}"'.format(filename)
     return res
-    # return HttpResponse('success')
 
 
 # 测井数据上传
@@ -746,11 +614,6 @@ class LoggingInfoView(APIView):
         docstring
         """
         fileio = request.FILES.get("file", None)  # 注意比较
-
-        # print(request.data['upload_date'])  # DRF才有request.data
-        # print(request.POST)  # Django只有request.POST、request.GET
-        # print(request.data)
-        # _id = self.request.POST.get('id')
         logging_filename = request.data['logging_filename'],  # 取出来竟是个元组，QAQ
         location = request.data['location'],
         company_name = request.data['company_name'],
@@ -759,12 +622,10 @@ class LoggingInfoView(APIView):
         logging_upload_date = request.data['logging_upload_date'],
         # 上传到GriDFS中
         filename = request.data['filename'],
-
         temp_time2 = int(logging_upload_date[0])/1000
         # 转换成localtime
         time_local2 = time.localtime(temp_time2)
         # 转换成新的时间格式(2016-05-05 20:28:54)
-
         dt2 = time.strftime("%Y-%m-%d", time_local2)
 
         # 保存到本地
@@ -785,7 +646,6 @@ class LoggingInfoView(APIView):
             # 写入GridFS
             write_data.filedata.put(
                 fd, content_type='prn', filename=logging_filename[0], aliases=[filename[0]])
-            # writedata.filedata.put(SeismicInfo, content_type='segy')
         write_data.save()
 
         return HttpResponse('success')
@@ -794,16 +654,12 @@ class LoggingInfoView(APIView):
 # 测井数据编辑数据
 def EditLoggingInfo(request):
     if request.method == "POST":
-
         body_data = request.body
         data_json = json.loads(body_data)
-        # print(data_json)
-
         query_data_json = data_json['json_data']
         dict_data = json.loads(query_data_json)
         dict_data.pop('filedata')  # 去掉文件字段
         front_query_oid = dict_data['id']
-
         query_obj = LoggingInfo.objects.get(
             id=front_query_oid)
         print(query_obj)
@@ -825,21 +681,16 @@ def DeleteLoggingInfo(request):
     """
     if request.method == "POST":
         body_data = request.body
-        # print(body_data)
         data_json = json.loads(body_data)
-        # print(data_json)
         query_data_json = data_json['json_data']
-        # print(query_data_json)
         dict_data = json.loads(query_data_json)
         print(dict_data)
         front_query_oid = dict_data['id']
-
         query_obj = LoggingInfo.objects.get(
             id=front_query_oid)
         print(query_obj)
         query_obj.delete()
         return HttpResponse("Delete Success")
-
 # 测井数据查询数据
 
 
@@ -848,13 +699,9 @@ class LoggingInfoSearch(APIView):
         """
         docstring
         """
-        # print('success')
         search_key = request.GET['search_key']  # 根据字段搜索
-        # print(search_key)
         logging_obj = LoggingInfo.objects.filter(
             logging_filename=search_key).all().order_by('_id')  # 一定要排序
-        # seismic_obj = SeismicInfo.objects.search_text(search_key).first()
-
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -869,32 +716,22 @@ class LoggingInfoSearch(APIView):
 # 测井数据下载数据
 @require_http_methods(['GET'])
 def LoggingFileDownload(request):
-
     search_key = request.GET['file_id']  # 根据字段搜索
-    print(search_key)
-
     # 从数据库拿到数据
     logging_obj = LoggingInfo.objects(id=search_key).first()
-    print(logging_obj)
-    print(logging_obj.logging_filename)
     filename = logging_obj.logging_filename
     logging_file = logging_obj.filedata.read()
     content_type = logging_obj.filedata.content_type
-    # print(type(seismic_file)) #<class 'bytes'>
-    # print(type(content_type)) #<class 'str'>
-
     # 数据写入服务器
     with open("../mongeostore_env/upload/%s" % filename, 'wb') as f:
         f.write(logging_file)
     print('save success')
-
-    # # 拿到数据,返回前端
+    # 拿到数据,返回前端
     with open("./upload/%s" % filename, "rb") as f:
         res = HttpResponse(f)
         res["Content-Type"] = "application/octet-stream"  # 注意格式
         res["Content-Disposition"] = 'filename="{}"'.format(filename)
     return res
-    # return HttpResponse('success')
 
 
 # 地质数据上传
@@ -904,7 +741,6 @@ class GeologicalInfoView(APIView):
         docstring
         """
         geological_obj = GeologicalInfo.objects.all().order_by('_id')  # 一定要排序
-        # print(seismic_obj)
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -920,11 +756,6 @@ class GeologicalInfoView(APIView):
         docstring
         """
         fileio = request.FILES.get("file", None)  # 注意比较
-
-        # print(request.data['upload_date'])  # DRF才有request.data
-        # print(request.POST)  # Django只有request.POST、request.GET
-        # print(request.data)
-        # _id = self.request.POST.get('id')
         # 取出来竟是个元组，QAQ
         geological_filename = request.data['geological_filename'],
         location = request.data['location'],
@@ -934,12 +765,10 @@ class GeologicalInfoView(APIView):
         geological_upload_date = request.data['geological_upload_date'],
         # 上传到GriDFS中
         filename = request.data['filename'],
-
         temp_time2 = int(geological_upload_date[0])/1000
         # 转换成localtime
         time_local2 = time.localtime(temp_time2)
         # 转换成新的时间格式(2016-05-05 20:28:54)
-
         dt2 = time.strftime("%Y-%m-%d", time_local2)
 
         # 保存到本地
@@ -960,7 +789,6 @@ class GeologicalInfoView(APIView):
             # 写入GridFS
             write_data.filedata.put(
                 fd, content_type='jpeg/png', filename=geological_filename[0], aliases=[filename[0]])
-            # writedata.filedata.put(SeismicInfo, content_type='segy')
         write_data.save()
 
         return HttpResponse('success')
@@ -969,11 +797,8 @@ class GeologicalInfoView(APIView):
 # 地质数据编辑数据
 def EditGeologicalInfo(request):
     if request.method == "POST":
-
         body_data = request.body
         data_json = json.loads(body_data)
-        # print(data_json)
-
         query_data_json = data_json['json_data']
         dict_data = json.loads(query_data_json)
         dict_data.pop('filedata')  # 去掉文件字段
@@ -1000,15 +825,11 @@ def DeleteGeologicalInfo(request):
     """
     if request.method == "POST":
         body_data = request.body
-        # print(body_data)
         data_json = json.loads(body_data)
-        # print(data_json)
         query_data_json = data_json['json_data']
-        # print(query_data_json)
         dict_data = json.loads(query_data_json)
         print(dict_data)
         front_query_oid = dict_data['id']
-
         query_obj = GeologicalInfo.objects.get(
             id=front_query_oid)
         print(query_obj)
@@ -1023,12 +844,9 @@ class GeologicalInfoSearch(APIView):
         """
         docstring
         """
-        # print('success')
         search_key = request.GET['search_key']  # 根据字段搜索
-        # print(search_key)
         geological_obj = GeologicalInfo.objects.filter(
             geological_filename=search_key).all().order_by('_id')  # 一定要排序
-        # seismic_obj = SeismicInfo.objects.search_text(search_key).first()
 
         # 创建分页对象
         page = MyPagination()
@@ -1044,19 +862,12 @@ class GeologicalInfoSearch(APIView):
 # 地质数据下载数据
 @require_http_methods(['GET'])
 def GeologicalFileDownload(request):
-
     search_key = request.GET['file_id']  # 根据字段搜索
-    print(search_key)
-
     # 从数据库拿到数据
     geological_obj = GeologicalInfo.objects(id=search_key).first()
-    print(geological_obj)
-    print(geological_obj.geological_filename)
     filename = geological_obj.geological_filename
     geological_file = geological_obj.filedata.read()
     content_type = geological_obj.filedata.content_type
-    # print(type(seismic_file)) #<class 'bytes'>
-    # print(type(content_type)) #<class 'str'>
 
     # 数据写入服务器
     with open("../mongeostore_env/upload/%s" % filename, 'wb') as f:
@@ -1069,7 +880,6 @@ def GeologicalFileDownload(request):
         res["Content-Type"] = "application/octet-stream"  # 注意格式
         res["Content-Disposition"] = 'filename="{}"'.format(filename)
     return res
-    # return HttpResponse('success')
 # 水文数据上传
 
 
@@ -1079,7 +889,6 @@ class HydrologicalInfoView(APIView):
         docstring
         """
         hydrological_obj = HydrologicalInfo.objects.all().order_by('_id')  # 一定要排序
-        # print(seismic_obj)
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -1096,10 +905,6 @@ class HydrologicalInfoView(APIView):
         """
         fileio = request.FILES.get("file", None)  # 注意比较
 
-        # print(request.data['upload_date'])  # DRF才有request.data
-        # print(request.POST)  # Django只有request.POST、request.GET
-        # print(request.data)
-        # _id = self.request.POST.get('id')
         # 取出来竟是个元组，QAQ
         hydrological_filename = request.data['hydrological_filename'],
         location = request.data['location'],
@@ -1144,16 +949,12 @@ class HydrologicalInfoView(APIView):
 # 水文数据编辑数据
 def EditHydrologicalInfo(request):
     if request.method == "POST":
-
         body_data = request.body
         data_json = json.loads(body_data)
-        # print(data_json)
-
         query_data_json = data_json['json_data']
         dict_data = json.loads(query_data_json)
         dict_data.pop('filedata')  # 去掉文件字段
         front_query_oid = dict_data['id']
-
         query_obj = HydrologicalInfo.objects.get(
             id=front_query_oid)
         print(query_obj)
@@ -1175,15 +976,11 @@ def DeleteHydrologicalInfo(request):
     """
     if request.method == "POST":
         body_data = request.body
-        # print(body_data)
         data_json = json.loads(body_data)
-        # print(data_json)
         query_data_json = data_json['json_data']
-        # print(query_data_json)
         dict_data = json.loads(query_data_json)
         print(dict_data)
         front_query_oid = dict_data['id']
-
         query_obj = HydrologicalInfo.objects.get(
             id=front_query_oid)
         print(query_obj)
@@ -1198,12 +995,9 @@ class HydrologicalInfoSearch(APIView):
         """
         docstring
         """
-        # print('success')
         search_key = request.GET['search_key']  # 根据字段搜索
-        # print(search_key)
         hydrological_obj = HydrologicalInfo.objects.filter(
             hydrological_filename=search_key).all().order_by('_id')  # 一定要排序
-        # seismic_obj = SeismicInfo.objects.search_text(search_key).first()
 
         # 创建分页对象
         page = MyPagination()
@@ -1230,21 +1024,18 @@ def HydrologicalFileDownload(request):
     filename = hydrological_obj.hydrological_filename
     hydrological_file = hydrological_obj.filedata.read()
     content_type = hydrological_obj.filedata.content_type
-    # print(type(seismic_file)) #<class 'bytes'>
-    # print(type(content_type)) #<class 'str'>
 
     # 数据写入服务器
     with open("../mongeostore_env/upload/%s" % filename, 'wb') as f:
         f.write(hydrological_file)
     print('save success')
 
-    # # 拿到数据,返回前端
+    # 拿到数据,返回前端
     with open("./upload/%s" % filename, "rb") as f:
         res = HttpResponse(f)
         res["Content-Type"] = "application/octet-stream"  # 注意格式
         res["Content-Disposition"] = 'filename="{}"'.format(filename)
     return res
-    # return HttpResponse('success')
 
 
 #########地震采集数据上传##########
@@ -1254,7 +1045,6 @@ class SeiAcquisitionInfoView(APIView):
         docstring
         """
         seiAcquisition_obj = SeiAcquisitionInfo.objects.all().order_by('_id')  # 一定要排序
-        # print(seismic_obj)
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -1271,11 +1061,7 @@ class SeiAcquisitionInfoView(APIView):
         """
         fileio = request.FILES.get("file", None)  # 注意比较
 
-        # print(request.data['upload_date'])  # DRF才有request.data
-        # print(request.POST)  # Django只有request.POST、request.GET
-        # print(request.data)
-        # _id = self.request.POST.get('id')
-        seiAcquisition_filename = request.data['seiAcquisition_filename'],  # 取出来竟是个元组，QAQ
+        seiAcquisition_filename = request.data['seiAcquisition_filename'],
         location = request.data['location'],
         company_name = request.data['company_name'],
         uploader = request.data['uploader'],
@@ -1309,20 +1095,15 @@ class SeiAcquisitionInfoView(APIView):
             # 写入GridFS
             write_data.filedata.put(
                 fd, content_type='jpeg/png', filename=seiAcquisition_filename[0], aliases=[filename[0]])
-            # writedata.filedata.put(SeismicInfo, content_type='segy')
         write_data.save()
-
         return HttpResponse('success')
 
 
 # 地震采集数据编辑数据
 def EditSeiAcquisitionInfo(request):
     if request.method == "POST":
-
         body_data = request.body
         data_json = json.loads(body_data)
-        # print(data_json)
-
         query_data_json = data_json['json_data']
         dict_data = json.loads(query_data_json)
         dict_data.pop('filedata')  # 去掉文件字段
@@ -1339,19 +1120,18 @@ def EditSeiAcquisitionInfo(request):
             print('输入有误')
             status_code = 412
             return HttpResponse(status_code)
-        
+
 # 地震采集数据删除数据
+
+
 def DeleteSeiAcquisitionInfo(request):
     """
     docstring
     """
     if request.method == "POST":
         body_data = request.body
-        # print(body_data)
         data_json = json.loads(body_data)
-        # print(data_json)
         query_data_json = data_json['json_data']
-        # print(query_data_json)
         dict_data = json.loads(query_data_json)
         print(dict_data)
         front_query_oid = dict_data['id']
@@ -1363,17 +1143,16 @@ def DeleteSeiAcquisitionInfo(request):
         return HttpResponse("Delete Success")
 
 # 地震采集数据查询数据
+
+
 class SeiAcquisitionInfoSearch(APIView):
     def get(self, request, *args, **kwargs):
         """
         docstring
         """
-        # print('success')
         search_key = request.GET['search_key']  # 根据字段搜索
-        # print(search_key)
         seiAcquisition_obj = SeiAcquisitionInfo.objects.filter(
             seiAcquisition_filename=search_key).all().order_by('_id')  # 一定要排序
-        # seismic_obj = SeismicInfo.objects.search_text(search_key).first()
 
         # 创建分页对象
         page = MyPagination()
@@ -1400,8 +1179,6 @@ def SeiAcquisitionFileDownload(request):
     filename = seiAcquisition_obj.seiAcquisition_filename
     seiAcquisition_file = seiAcquisition_obj.filedata.read()
     content_type = seiAcquisition_obj.filedata.content_type
-    # print(type(seismic_file)) #<class 'bytes'>
-    # print(type(content_type)) #<class 'str'>
 
     # 数据写入服务器
     with open("../mongeostore_env/upload/%s" % filename, 'wb') as f:
@@ -1414,8 +1191,6 @@ def SeiAcquisitionFileDownload(request):
         res["Content-Type"] = "application/octet-stream"  # 注意格式
         res["Content-Disposition"] = 'filename="{}"'.format(filename)
     return res
-    # return HttpResponse('success')
-
 
 
 #########地震处理数据上传##########
@@ -1425,7 +1200,6 @@ class SeiprocessInfoView(APIView):
         docstring
         """
         seiprocess_obj = SeiprocessInfo.objects.all().order_by('_id')  # 一定要排序
-        # print(seismic_obj)
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -1442,11 +1216,8 @@ class SeiprocessInfoView(APIView):
         """
         fileio = request.FILES.get("file", None)  # 注意比较
 
-        # print(request.data['upload_date'])  # DRF才有request.data
-        # print(request.POST)  # Django只有request.POST、request.GET
-        # print(request.data)
-        # _id = self.request.POST.get('id')
-        seiprocess_filename = request.data['seiprocess_filename'],  # 取出来竟是个元组，QAQ
+        # 取出来竟是个元组，QAQ
+        seiprocess_filename = request.data['seiprocess_filename'],
         location = request.data['location'],
         company_name = request.data['company_name'],
         uploader = request.data['uploader'],
@@ -1480,7 +1251,6 @@ class SeiprocessInfoView(APIView):
             # 写入GridFS
             write_data.filedata.put(
                 fd, content_type='jpeg/png', filename=seiprocess_filename[0], aliases=[filename[0]])
-            # writedata.filedata.put(SeismicInfo, content_type='segy')
         write_data.save()
 
         return HttpResponse('success')
@@ -1492,7 +1262,6 @@ def EditSeiprocessInfo(request):
 
         body_data = request.body
         data_json = json.loads(body_data)
-        # print(data_json)
 
         query_data_json = data_json['json_data']
         dict_data = json.loads(query_data_json)
@@ -1510,19 +1279,18 @@ def EditSeiprocessInfo(request):
             print('输入有误')
             status_code = 412
             return HttpResponse(status_code)
-        
+
 # 地震处理数据删除数据
+
+
 def DeleteSeiprocessInfo(request):
     """
     docstring
     """
     if request.method == "POST":
         body_data = request.body
-        # print(body_data)
         data_json = json.loads(body_data)
-        # print(data_json)
         query_data_json = data_json['json_data']
-        # print(query_data_json)
         dict_data = json.loads(query_data_json)
         print(dict_data)
         front_query_oid = dict_data['id']
@@ -1534,17 +1302,16 @@ def DeleteSeiprocessInfo(request):
         return HttpResponse("Delete Success")
 
 # 地震处理数据查询数据
+
+
 class SeiprocessInfoSearch(APIView):
     def get(self, request, *args, **kwargs):
         """
         docstring
         """
-        # print('success')
         search_key = request.GET['search_key']  # 根据字段搜索
-        # print(search_key)
         seiprocess_obj = SeiprocessInfo.objects.filter(
             seiprocess_filename=search_key).all().order_by('_id')  # 一定要排序
-        # seismic_obj = SeismicInfo.objects.search_text(search_key).first()
 
         # 创建分页对象
         page = MyPagination()
@@ -1571,8 +1338,6 @@ def SeiprocessFileDownload(request):
     filename = seiprocess_obj.seiprocess_filename
     seiprocess_file = seiprocess_obj.filedata.read()
     content_type = seiprocess_obj.filedata.content_type
-    # print(type(seismic_file)) #<class 'bytes'>
-    # print(type(content_type)) #<class 'str'>
 
     # 数据写入服务器
     with open("../mongeostore_env/upload/%s" % filename, 'wb') as f:
@@ -1585,8 +1350,6 @@ def SeiprocessFileDownload(request):
         res["Content-Type"] = "application/octet-stream"  # 注意格式
         res["Content-Disposition"] = 'filename="{}"'.format(filename)
     return res
-    # return HttpResponse('success')
-
 
 
 #########地震解释数据上传##########
@@ -1596,7 +1359,6 @@ class SeiInterpretationInfoView(APIView):
         docstring
         """
         seiInterpretation_obj = SeiInterpretationInfo.objects.all().order_by('_id')  # 一定要排序
-        # print(seismic_obj)
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -1613,11 +1375,8 @@ class SeiInterpretationInfoView(APIView):
         """
         fileio = request.FILES.get("file", None)  # 注意比较
 
-        # print(request.data['upload_date'])  # DRF才有request.data
-        # print(request.POST)  # Django只有request.POST、request.GET
-        # print(request.data)
-        # _id = self.request.POST.get('id')
-        seiInterpretation_filename = request.data['seiInterpretation_filename'],  # 取出来竟是个元组，QAQ
+        # 取出来竟是个元组，QAQ
+        seiInterpretation_filename = request.data['seiInterpretation_filename'],
         location = request.data['location'],
         company_name = request.data['company_name'],
         uploader = request.data['uploader'],
@@ -1651,7 +1410,6 @@ class SeiInterpretationInfoView(APIView):
             # 写入GridFS
             write_data.filedata.put(
                 fd, content_type='jpeg/png', filename=seiInterpretation_filename[0], aliases=[filename[0]])
-            # writedata.filedata.put(SeismicInfo, content_type='segy')
         write_data.save()
 
         return HttpResponse('success')
@@ -1663,7 +1421,6 @@ def EditSeiInterpretationInfo(request):
 
         body_data = request.body
         data_json = json.loads(body_data)
-        # print(data_json)
 
         query_data_json = data_json['json_data']
         dict_data = json.loads(query_data_json)
@@ -1681,19 +1438,18 @@ def EditSeiInterpretationInfo(request):
             print('输入有误')
             status_code = 412
             return HttpResponse(status_code)
-        
+
 # 地震解释数据删除数据
+
+
 def DeleteSeiInterpretationInfo(request):
     """
     docstring
     """
     if request.method == "POST":
         body_data = request.body
-        # print(body_data)
         data_json = json.loads(body_data)
-        # print(data_json)
         query_data_json = data_json['json_data']
-        # print(query_data_json)
         dict_data = json.loads(query_data_json)
         print(dict_data)
         front_query_oid = dict_data['id']
@@ -1705,17 +1461,16 @@ def DeleteSeiInterpretationInfo(request):
         return HttpResponse("Delete Success")
 
 # 地震解释数据查询数据
+
+
 class SeiInterpretationInfoSearch(APIView):
     def get(self, request, *args, **kwargs):
         """
         docstring
         """
-        # print('success')
         search_key = request.GET['search_key']  # 根据字段搜索
-        # print(search_key)
         seiInterpretation_obj = SeiInterpretationInfo.objects.filter(
             seiInterpretation_filename=search_key).all().order_by('_id')  # 一定要排序
-        # seismic_obj = SeismicInfo.objects.search_text(search_key).first()
 
         # 创建分页对象
         page = MyPagination()
@@ -1736,14 +1491,13 @@ def SeiInterpretationFileDownload(request):
     print(search_key)
 
     # 从数据库拿到数据
-    seiInterpretation_obj = SeiInterpretationInfo.objects(id=search_key).first()
+    seiInterpretation_obj = SeiInterpretationInfo.objects(
+        id=search_key).first()
     print(seiInterpretation_obj)
     print(seiInterpretation_obj.seiInterpretation_filename)
     filename = seiInterpretation_obj.seiInterpretation_filename
     seiInterpretation_file = seiInterpretation_obj.filedata.read()
     content_type = seiInterpretation_obj.filedata.content_type
-    # print(type(seismic_file)) #<class 'bytes'>
-    # print(type(content_type)) #<class 'str'>
 
     # 数据写入服务器
     with open("../mongeostore_env/upload/%s" % filename, 'wb') as f:
@@ -1756,7 +1510,6 @@ def SeiInterpretationFileDownload(request):
         res["Content-Type"] = "application/octet-stream"  # 注意格式
         res["Content-Disposition"] = 'filename="{}"'.format(filename)
     return res
-    # return HttpResponse('success')
 
 
 #########地震历史数据上传##########
@@ -1766,7 +1519,6 @@ class SeihistoricalInfoView(APIView):
         docstring
         """
         seihistorical_obj = SeihistoricalInfo.objects.all().order_by('_id')  # 一定要排序
-        # print(seismic_obj)
         # 创建分页对象
         page = MyPagination()
         # 实例化查询，获取分页的数据
@@ -1783,11 +1535,8 @@ class SeihistoricalInfoView(APIView):
         """
         fileio = request.FILES.get("file", None)  # 注意比较
 
-        # print(request.data['upload_date'])  # DRF才有request.data
-        # print(request.POST)  # Django只有request.POST、request.GET
-        # print(request.data)
-        # _id = self.request.POST.get('id')
-        seihistorical_filename = request.data['seihistorical_filename'],  # 取出来竟是个元组，QAQ
+        # 取出来竟是个元组，QAQ
+        seihistorical_filename = request.data['seihistorical_filename'],
         location = request.data['location'],
         company_name = request.data['company_name'],
         uploader = request.data['uploader'],
@@ -1799,7 +1548,6 @@ class SeihistoricalInfoView(APIView):
         temp_time2 = int(seihistorical_upload_date[0])/1000
         # 转换成localtime
         time_local2 = time.localtime(temp_time2)
-        # 转换成新的时间格式(2016-05-05 20:28:54)
 
         dt2 = time.strftime("%Y-%m-%d", time_local2)
 
@@ -1821,7 +1569,6 @@ class SeihistoricalInfoView(APIView):
             # 写入GridFS
             write_data.filedata.put(
                 fd, content_type='jpeg/png', filename=seihistorical_filename[0], aliases=[filename[0]])
-            # writedata.filedata.put(SeismicInfo, content_type='segy')
         write_data.save()
 
         return HttpResponse('success')
@@ -1833,7 +1580,6 @@ def EditSeihistoricalInfo(request):
 
         body_data = request.body
         data_json = json.loads(body_data)
-        # print(data_json)
 
         query_data_json = data_json['json_data']
         dict_data = json.loads(query_data_json)
@@ -1851,19 +1597,18 @@ def EditSeihistoricalInfo(request):
             print('输入有误')
             status_code = 412
             return HttpResponse(status_code)
-        
+
 # 地震历史数据删除数据
+
+
 def DeleteSeihistoricalInfo(request):
     """
     docstring
     """
     if request.method == "POST":
         body_data = request.body
-        # print(body_data)
         data_json = json.loads(body_data)
-        # print(data_json)
         query_data_json = data_json['json_data']
-        # print(query_data_json)
         dict_data = json.loads(query_data_json)
         print(dict_data)
         front_query_oid = dict_data['id']
@@ -1875,17 +1620,16 @@ def DeleteSeihistoricalInfo(request):
         return HttpResponse("Delete Success")
 
 # 地震历史数据查询数据
+
+
 class SeihistoricalInfoSearch(APIView):
     def get(self, request, *args, **kwargs):
         """
         docstring
         """
-        # print('success')
         search_key = request.GET['search_key']  # 根据字段搜索
-        # print(search_key)
         seihistorical_obj = SeihistoricalInfo.objects.filter(
             seihistorical_filename=search_key).all().order_by('_id')  # 一定要排序
-        # seismic_obj = SeismicInfo.objects.search_text(search_key).first()
 
         # 创建分页对象
         page = MyPagination()
@@ -1912,8 +1656,6 @@ def SeihistoricalFileDownload(request):
     filename = seihistorical_obj.seihistorical_filename
     seihistorical_file = seihistorical_obj.filedata.read()
     content_type = seihistorical_obj.filedata.content_type
-    # print(type(seismic_file)) #<class 'bytes'>
-    # print(type(content_type)) #<class 'str'>
 
     # 数据写入服务器
     with open("../mongeostore_env/upload/%s" % filename, 'wb') as f:
@@ -1926,4 +1668,3 @@ def SeihistoricalFileDownload(request):
         res["Content-Type"] = "application/octet-stream"  # 注意格式
         res["Content-Disposition"] = 'filename="{}"'.format(filename)
     return res
-    # return HttpResponse('success')

@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-21 17:08:19
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-21 17:15:54
+ * @LastEditTime: 2022-05-13 14:36:34
 -->
 <template>
   <div style="padding-top: 20px">
@@ -26,14 +26,11 @@
 
     <el-card style="margin-top: 20px">
       <el-table :data="fileList" style="width: 100%">
-        <!-- <el-table-column prop="id" label="文件id"></el-table-column> -->
         <el-table-column prop="name" label="文件名称"></el-table-column>
-        <!-- <el-table-column prop="type" label="文件类型"></el-table-column> -->
         <el-table-column prop="size" label="文件大小" v-slot="{ row }">
           {{ row.size }}MB
         </el-table-column>
         <el-table-column prop="upload_date" label="上传时间"></el-table-column>
-        <!-- <el-table-column prop="publisher" label="上传人员"></el-table-column> -->
         <el-table-column label="进度" v-slot="{ row }">
           <el-progress
             :text-inside="true"
@@ -90,11 +87,9 @@ export default {
       fileList: [],
       fileOptions: {
         browse_button: "VideoChose",
-        // url: "http://127.0.0.1:8000/load/uploadfile/",
         url: "http://127.0.0.1:8000/seismic/seismicanalysisupload/",
         flash_swf_url: "script/Moxie.swf",
         silverlight_xap_url: "script/Moxie.xap",
-        // chunk_size: "10mb", //分块大小  ,注销掉或者改chunk_size：'0mb'为解决文件大于10M存为blob问题
         max_retries: 3,
         unique_names: true,
         multi_selection: true,
@@ -116,8 +111,6 @@ export default {
         },
         multipart_params: {
           uuid: "", //参数
-          // testparams: "Must can see me",
-          // "testparams2": "Must can see me2"
         },
       },
     };
@@ -135,7 +128,6 @@ export default {
     //上传成功监听
     this.uploader.bind("FileUploaded", this.FileUploaded);
     //获取uuid
-    // let url = `http://127.0.0.1:8000/api/uploadinfo/`;
     let url = `http://127.0.0.1:8000/seismic/seismicanalysisupload/`;
     axios.get(url).then(({ data }) => {
       this.fileOptions.multipart_params.uuid = data;
@@ -155,9 +147,7 @@ export default {
         obj.id = val.id;
         obj.name = val.name;
         obj.type = val.type;
-        // obj.upload_date = val.upload_date;
         obj.upload_date = new Date().toLocaleString(); //获取日期与时间
-        // obj.publiser = val.publiser;
         obj.publisher = "publisher"; //获取当前登录用户信息
         obj.size = parseInt((val.origSize / 1024 / 1024) * 100) / 100;
         obj.percentage = 0;

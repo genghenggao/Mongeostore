@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-11-18 15:08:08
  * @LastEditors: henggao
- * @LastEditTime: 2021-01-19 19:38:16
+ * @LastEditTime: 2022-05-13 11:06:01
 -->
 <template>
   <!-- <el-container style="overflow:auto"> -->
@@ -24,25 +24,9 @@
       </div>
       <div class="title_search">
         <el-row class="demo-autocomplete">
-          <!-- <el-col :span="15">
-            <el-autocomplete
-              class="inline-input"
-              v-model="state"
-              :fetch-suggestions="querySearch"
-              placeholder="请输入搜索内容"
-              :trigger-on-focus="false"
-              @select="handleSelect"
-            ></el-autocomplete>
-          </el-col> -->
+
           <el-col :span="24">
-            <!-- <el-button
-              type=""
-              plain
-              size="small"
-              icon="el-icon-search"
-              style="font-size: 15px; color: #b36262"
-              >搜索</el-button
-            > -->
+  
             <div
               class="grid-content"
               style="font-size: 18px; color: white; padding-top: 5px"
@@ -55,7 +39,6 @@
     </div>
 
     <div class="mentree_content">
-      <!-- <div class="menutree infinite-list" style="overflow:auto"> -->
       <el-scrollbar style="height: 100%">
         <el-row class="tac">
           <el-col :span="24">
@@ -239,10 +222,8 @@ export default {
       );
     },
     handleOpen(key, keyPath) {
-      // console.log(key, keyPath);
     },
     handleClose(key, keyPath) {
-      // console.log(key, keyPath);
     },
     handleSelect(path) {
       this.$router.push(path);
@@ -263,9 +244,7 @@ header.el-header {
   background: #870000;
   color: #b45c5c;
   padding-top: 10px;
-  // letter-spacing: 40px;
-  // box-pack: start;
-  // padding-left: 20px;
+
 }
 // 侧边搜索
 .title_search {
@@ -273,11 +252,7 @@ header.el-header {
   height: 46px;
   padding-top: 3px;
 }
-// 搜索按钮的颜色
-// button.el-button.el-button--small.is-plain {
-//   margin: 3px;
-//   background: #870000;
-// }
+
 // 侧边主要内容
 .mentree_content {
   width: 280px;
@@ -323,11 +298,7 @@ header.el-header {
   font-size: 15px;
   font-weight: bold;
 }
-// // 设置树形结构字体颜色
-// .custom-tree-container .el-tree {
-//   color: #870000;
-// //   background-color: #b45c5c;
-// }
+
 // 设置树形结构字体大小
 .custom-tree-node span {
   font-family: sans-serif;

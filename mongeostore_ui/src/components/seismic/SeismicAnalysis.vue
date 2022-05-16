@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-17 22:25:22
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-29 11:10:42
+ * @LastEditTime: 2022-05-13 15:14:32
 -->
 <template>
   <el-container>
@@ -135,9 +135,6 @@
             class="analysis_content"
             style="height: 700px; overflow: auto; padding-top: 30px"
           >
-            <!-- <pre>视图</pre> -->
-            <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
-            <!-- 旋转  transform:rotate(90deg); -->
             <div
               id="dataviews"
               class="echartsviews"
@@ -156,8 +153,6 @@
               transform: rotate(90deg);
             "
           >
-            <!-- <pre>视图</pre> -->
-            <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
             <div
               id="dataviews_profile"
               class="echartsviews"
@@ -422,7 +417,6 @@
 </template>
 
 <script>
-// var echarts = require("echarts");
 import axios from "axios";
 import qs from "qs";
 import plupload from "plupload";
@@ -547,8 +541,6 @@ export default {
       let this_url = "http://127.0.0.1:8000/seismic/seismicfileread/";
       axios({ method: "GET", url: this_url, params: {} })
         .then((res) => {
-          // console.log(res);
-          // console.log(res.data);
           this.tableData = res.data;
           // 设置默认解析文件，这里社第一个文件
           let temp_data = res.data[0];
@@ -567,9 +559,6 @@ export default {
         type: "warning",
       })
         .then(() => {
-          // console.log(index, rows, row);
-          // console.log(row.filename);
-          // let json_data = JSON.stringify(row);
           let data = { filename: row.filename };
           rows.splice(index, 1);
           let this_url = "http://127.0.0.1:8000/seismic/Seismicanalysisdelete/";
@@ -577,12 +566,9 @@ export default {
             method: "POST",
             url: this_url,
             data: qs.stringify(data),
-            // data: {json_data} ,
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            // headers: { "Content-Type": "application/json" },
           })
             .then((res) => {
-              // console.log("success");
               this.$message({
                 type: "success",
                 message: "删除成功!",
@@ -601,13 +587,10 @@ export default {
     },
     // 解析文件
     seismicanalysic(index, rows, row) {
-      // console.log(index, row);
-      // console.log(row.filename);
       this.seismic_message = row.filename;
     },
     // 查询卷头信息
     queryHeader(val, type) {
-      // console.log(this.seismic_message);
       console.log(val);
       console.log(type);
       let this_url = "http://127.0.0.1:8000/seismic/seismicheaderquery/";
@@ -621,19 +604,12 @@ export default {
         },
       })
         .then((res) => {
-          // console.log(res);
-          // console.log(res.data);
-          // console.log(this.val);
           if (this.type == "text") {
             this.showtype = "text"; //div判断展示text
             if (this.val == "header" || this.val == "Bin") {
-              // console.log("yes");
               let jsondata = eval("(" + res.data + ")");
-              // console.log(jsondata);
-              // this.seismic_info = res.data;
               this.seismic_info = jsondata;
             } else if (this.val == "track" || this.val == "traces") {
-              // console.log("no");
               this.seismic_info = res.data;
             } else {
               this.seismic_info = res.data;
@@ -641,9 +617,7 @@ export default {
           } else if (this.type == "views") {
             this.showtype = "views"; //div判断展示views
             var seismicdata = res.data;
-            // console.log(res.data);
-            // console.log(Math.max.apply(null, res.data));
-            // console.log(Math.min.apply(null, res.data));
+
             let max_value = Math.max.apply(null, res.data);
             let min_value = Math.min.apply(null, res.data);
             let value = 0;
@@ -652,13 +626,11 @@ export default {
             } else {
               value = max_value;
             }
-            // console.log(typeof res.data);
             if ((this.showtype = "views")) {
               // 基于准备好的dom，初始化echarts实例
               let myChart = this.$echarts.init(
                 document.getElementById("dataviews")
               );
-              // let mychart = echarts.init(this.$refs.chart);
               // 指定图表的配置项和数据
               let data = [];
               seismicdata.forEach((element, i) => {
@@ -667,7 +639,6 @@ export default {
               let textname = "第" + this.val + "道数据展示图";
               let option = {
                 title: {
-                  // text: "当前道的频谱图",
                   text: textname,
                   subtext: "数据来自MonGeoStore解析",
                   left: "center",
@@ -751,7 +722,6 @@ export default {
           }
         })
         .catch((err) => {
-          // console.log(err);
           this.$message.error("Sorry，文件无法解析，请检查文件正确性！");
         });
     },
@@ -762,7 +732,6 @@ export default {
           this.seismicprofileform.mtrace == "" ||
           this.seismicprofileform.ntrace == ""
         ) {
-          // console.log("不能为空");
           this.$notify.error({
             title: "Error",
             message: "请输入相关参数!!",
@@ -770,8 +739,6 @@ export default {
         } else if (
           this.seismicprofileform.mtrace <= this.seismicprofileform.ntrace
         ) {
-          // console.log(formName);
-          // console.log(this.seismicprofileform);
           let this_url = "http://127.0.0.1:8000/seismic/seismicprofilequery/";
           axios({
             method: "GET",
@@ -783,43 +750,25 @@ export default {
             },
           })
             .then((res) => {
-              // console.log(res);
-              // console.log(res.data);
               this.showtype = "views_profile"; //div判断展示views
               // 基于准备好的dom，初始化echarts实例
               let myChart = this.$echarts.init(
                 document.getElementById("dataviews_profile")
               );
               var datajson = eval("(" + res.data + ")");
-              // console.log(datajson);
-              // console.log(datajson['data']);
               let data_arr = datajson["data"];
-              // console.log(data_arr);
-              // console.log(data_arr[1]);
               let data1 = data_arr[0];
               let data2 = data_arr[1];
-              // console.log(datajson.data);
               // 图形需要的数据
-              // let data = datajson.data;
               let num_data =
                 this.seismicprofileform.ntrace -
                 this.seismicprofileform.mtrace +
                 1;
               let serieslist = [];
               let seriejson = {};
-              // let itemStyle = {};
-              // itemStyle = {
-              //   normal: {
-              //     lineStyle: {
-              //       color: "#253A5D", //改变折线颜色
-              //     },
-              //   },
-              // };
-              // serieslist.push(itemStyle);
 
               for (let index = 0; index < num_data; index++) {
                 // const element = array[index];
-                let data_x = data_arr[index];
                 seriejson = {
                   type: "line",
                   showSymbol: false,
@@ -834,16 +783,12 @@ export default {
               let textname = "多道数据展示图";
               let option = {
                 title: {
-                  // text: "当前道的频谱图",
                   text: textname,
                   subtext: "数据来自MonGeoStore解析",
                   left: "center",
                 },
                 animation: false,
-                // visualMap: {
-                //   top: 10,
-                //   right: 10,
-                // },
+
                 grid: {
                   top: 60,
                   left: 60,
@@ -869,8 +814,6 @@ export default {
                 },
                 yAxis: {
                   name: "y",
-                  // min: -1,
-                  // max: 1,
                   min: this.seismicprofileform.mtrace - 1,
                   minorTick: {
                     show: true,
@@ -893,36 +836,17 @@ export default {
                     type: "inside",
                     filterMode: "none",
                     xAxisIndex: [0],
-                    // startValue: -20,
-                    // endValue: 20,
                   },
                   {
                     show: true,
                     type: "inside",
                     filterMode: "none",
                     yAxisIndex: [0],
-                    // startValue: -20,
-                    // endValue: 20,
                   },
                 ],
-                // series: [
-                //   {
-                //     type: "line",
-                //     showSymbol: false,
-                //     clip: true,
-                //     data: data1,
-                //   },
-                //   {
-                //     type: "line",
-                //     showSymbol: false,
-                //     clip: true,
-                //     data: data2,
-                //   },
-                // ],
+
                 series: serieslist,
               };
-
-              // console.log(parseFloat(res.data));
 
               // 使用刚指定的配置项和数据显示图表。
               myChart.setOption(option, true); // 加上true表示不合并配置
@@ -935,8 +859,6 @@ export default {
               });
             });
         } else {
-          // console.log("error submit!!");
-          // return false;
           this.$notify.error({
             title: "Error",
             message: "输入参数不正确!!",
@@ -957,9 +879,6 @@ export default {
         },
       })
         .then((res) => {
-          // console.log("success");
-          // console.log(res);
-          // console.log(res.data);
           this.showtype = "seismicprofile"; //div判断展示views
           this.$notify.success({
             title: "success",
@@ -984,7 +903,6 @@ export default {
       this.showSeismicFile();
     },
     makesuretable2() {
-      // this.$refs.analysisCloudData.WebSocketClose();
       this.centerDialogVisible = false;
       this.cloudDialogVisible = false;
 
@@ -1062,12 +980,8 @@ export default {
 // 表单label
 ::v-deep .el-form-item__label {
   color: #ffffff;
-  // padding: 0;
 }
-// 按钮位置
-// ::v-deep .el-form-item__content {
-//   margin-left: 10px;
-// }
+
 ::v-deep .el-form-item__content {
   margin-left: 5px;
 }

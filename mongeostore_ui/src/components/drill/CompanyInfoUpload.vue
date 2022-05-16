@@ -85,10 +85,7 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    //开始上传
-    // FileUplodeOn() {
-    //   this.uploader.start();
-    // },
+
     onSubmit() {
       this.uploader.start();
     },

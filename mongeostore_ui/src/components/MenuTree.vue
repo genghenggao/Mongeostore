@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-10-05 11:09:49
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-18 22:43:53
+ * @LastEditTime: 2022-05-13 11:05:10
 -->
 <template>
   <!-- <el-container style="overflow:auto"> -->
@@ -62,9 +62,7 @@
                 <span>地震数据采集子系统</span>
               </template>
               <el-menu-item-group>
-                <!-- <el-menu-item index="1-1">钻孔数据</el-menu-item>
-              <el-menu-item index="1-2">钻孔数据</el-menu-item>
-              <el-menu-item index="1-3">钻孔数据</el-menu-item> -->
+   
                 <el-submenu index="1-1">
                   <template slot="title">
                     <i class="el-icon-folder-opened"></i>

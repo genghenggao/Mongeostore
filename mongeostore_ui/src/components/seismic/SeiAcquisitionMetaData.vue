@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-16 15:08:04
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-29 20:03:15
+ * @LastEditTime: 2022-05-13 14:47:11
 -->
 <template>
   <div class="DataShow">
@@ -67,19 +67,9 @@
                 >上传</el-button
               >
             </el-form-item>
-            <!-- <el-form-item id="addNew-item">
-              <el-button
-                type="info"
-                plain
-                icon="el-icon-edit"
-                @click="dialogVisible = true"
-                >新增</el-button
-              >
-            </el-form-item> -->
           </el-form>
         </section>
         <!--搜索头 结束-->
-        <!-- <SearchData /> -->
       </el-header>
       <el-main class="data_content">
         <div class="data_table" style="overflow: hidden">
@@ -125,7 +115,10 @@
                   plain
                   size="mini"
                   @click="
-                    downloadfile(scope.row.seiAcquisition_filename, scope.row.id)
+                    downloadfile(
+                      scope.row.seiAcquisition_filename,
+                      scope.row.id
+                    )
                   "
                   >下载文件</el-button
                 >
@@ -170,8 +163,7 @@
           >
           </el-pagination>
         </div>
-        <!-- 下面这个用来设置点击添加按钮的弹出框，里面可以进行嵌套表格来展示弹出的表格信息,使用下面的:visible.sync来控制显示与否。里面绑定的是我们新设置的值，填写完成后，将我们这个新值塞到页面中所有的数据当中去  -->
-        <!-- 添加数据的对话框 -->
+
         <el-dialog
           title="添加数据"
           :visible.sync="dialogVisible"
@@ -179,7 +171,6 @@
           @close="addDialogClosed"
         >
           <!-- 内容的主体区域 -->
-          <!--去掉:rules="addFormRules" -->
           <el-form
             ref="addFormRef"
             :model="add_to_data"
@@ -187,14 +178,6 @@
             label-width="120px"
           >
             <template v-for="(item, key) of addForm">
-              <!-- <el-form-item
-                v-if="key == '_id'"
-                :label="key"
-                :prop="key"
-                :key="key"
-              >
-                <el-input v-model="addForm[key]"></el-input>
-              </el-form-item> -->
               <el-form-item
                 v-if="key !== 'id' && key !== 'location'"
                 :label="key"
@@ -232,7 +215,6 @@
 import axios from "axios";
 import qs from "qs";
 
-// import SearchData from "@/components/SearchData.vue";
 export default {
   name: "SeiAcquisitionMetaData",
   components: {
@@ -242,7 +224,6 @@ export default {
     // 校验添加信息
     let checkZk_name = (rule, value, callback) => {
       const regZk_name = /^ZK[0-9]{1,6}/;
-      // const regKey_word = /^[A-Za-z0-9\u4e00-\u9fa5]{3,}$/;
       if (regZk_name.test(value)) {
         // 验证通过，合法
         return callback();
@@ -361,10 +342,6 @@ export default {
         track_type: "曲",
         coordinate_lng: "",
         coordinate_lat: "",
-        // location: {
-        //   type: "Point",
-        //   coordinates: [],
-        // },
       },
       // 添加数据框的字段,用来判断是否为空，确定按钮
       add_to_data: {
@@ -376,10 +353,6 @@ export default {
         track_type: "曲",
         coordinate_lng: "",
         coordinate_lat: "",
-        // location: {
-        //   type: "Point",
-        //   coordinates: [],
-        // },
       },
       // 通过add_button_state值判断确定按钮是否激活
       add_button_state: false,
@@ -432,7 +405,6 @@ export default {
   watch: {
     add_to_data: {
       handler(curval, oldval) {
-        // console.log(Object.keys(curval)[0]);
         let regZk_name = /^ZK[0-9]{1,6}/;
         let re = /^[0-9]+.?[0-9]*/; //判断字符串是否为数字
         if (
@@ -455,7 +427,6 @@ export default {
   },
   created() {
     this.showData(this.PageSize, this.currentPage); //展示Collection表格数据
-    // this.onSearchSubmit(this.PageSize, this.currentPage); //展示Collection表格数据
   },
   mounted() {},
   methods: {
@@ -472,8 +443,6 @@ export default {
           },
         })
         .then((response) => {
-          // var res = JSON.parse(response.bodyText);
-          // console.log(response);
           console.log(response.data);
           console.log(response.data.data);
 
@@ -483,10 +452,7 @@ export default {
           this.totalCount = response.data.data.count; //分页总数
 
           let tmp = this.tableData[0];
-          // console.log(tmp);
-          // var listcol = [];
 
-          // cols prop属性值都是作为 tableData的属性
           var newcols = [
             { label: "文件名称", prop: "seiAcquisition_filename" },
             { label: "研究区域", prop: "location" },
@@ -494,20 +460,16 @@ export default {
             { label: "单位名称", prop: "company_name" },
             { label: "上传人员", prop: "uploader" },
             { label: "上传时间", prop: "seiAcquisition_upload_date" },
-            // { label: "钻孔柱状图", prop: "zk_histogram" },
           ];
 
           this.cols = newcols;
           let tem_list = [];
           for (let i = 0; i < 55; i++) {
-            // const element = array[i];
             let ZK = "ZK";
             let ZKX = ZK + i;
-            // {text:"ZKX",value;"ZKX"}
             let json_data = { text: ZKX, value: ZKX };
             tem_list.push(json_data);
           }
-          // console.log(tem_list);
           this.filter_data = tem_list;
         });
     },
@@ -528,7 +490,6 @@ export default {
 
     // 点击按钮，添加数据
     addData() {
-      // this.addForm.visible = true;
       // 发送添加数据的网络请求
       const url = "http://127.0.0.1:8000/load/adddrilllocation/";
       let tmp_data = this.add_to_data;
@@ -537,8 +498,6 @@ export default {
         .post(url, {
           tmp_data,
           // 设置上传到后端的数据库和集合名称
-          // colname: this.$store.state.title_message,
-          // dbname: this.$store.state.temp_database,
         })
         .then((res) => {
           console.log("Success");
@@ -550,8 +509,6 @@ export default {
 
       // 隐藏添加用户的对话框
       this.dialogVisible = false;
-      // 重新获取用户列表数据
-      // this.showData();
       //通过flag判断,刷新数据
       if (!this.flag) {
         this.showData();
@@ -589,8 +546,6 @@ export default {
             let url = window.URL.createObjectURL(blob);
             const link = document.createElement("a"); // 创建a标签
             link.href = url;
-            // link.download = "下载文件.segy"; // 重命名文件
-            // link.download = seiAcquisition_filename + ".segy"; // 重命名文件
             link.download = seiAcquisition_filename; // 重命名文件
             link.click();
             URL.revokeObjectURL(url); // 释放内存
@@ -602,20 +557,10 @@ export default {
     },
     // 编辑（修改）按钮
     handleEdit(index, row) {
-      // console.log(index, row);
       // 动态设置数据并通过这个数据判断显示方式
       if (row.isEdit) {
         // 点击保存的
         this.$delete(row, "isEdit");
-        // console.log("开始delete");
-        // console.log(index, row); //把row发送给后端
-        // console.log(row["_id"]["$oid"]); //把row发送给后端
-        // row["id"] = row["_id"]["$oid"];
-        // row["help_param"] = "help_param"; //用于解决后端smscode参数为3019"}多了"}问题
-        // let postData = qs.stringify(row); // w为了解决后端拿不到数据问题
-        // postData["_id"] = row["_id"]["$oid"];
-        // console.log(typeof postData);
-        // console.log(row["id"]);
         let json_data = JSON.stringify(row);
 
         const url = "http://127.0.0.1:8000/seismic/editseiAcquisitioninfo/";
@@ -632,7 +577,6 @@ export default {
             {
               headers: { "Content-Type": "application/x-www-form-urlencoded" },
             }
-            // console.log(postData)
           )
           .then((res) => {
             console.log("编辑成功");
@@ -648,10 +592,7 @@ export default {
       } else {
         // 点击编辑
         this.$set(row, "isEdit", true);
-        // console.log("开始set");
-        // console.log(index, row);
       }
-      // console.log(this.tableData);s
     },
     // 删除按钮
     deleteRow(index, rows, row) {
@@ -684,8 +625,6 @@ export default {
             )
             .then((res) => {
               console.log("删除成功");
-              // 重新获取用户列表数据
-              // this.showData();
               //通过flag判断,刷新数据
               if (!this.flag) {
                 this.showData(this.PageSize, this.currentPage);
@@ -709,8 +648,6 @@ export default {
         this.$message.warning("查询条件不能为空！");
         return;
       } else {
-        // console.log(this.searchCondition.filter_key);
-        // console.log(this.$store.state.temp_database);
         let filter_key_data = this.searchCondition.filter_key;
         const url = "http://127.0.0.1:8000/seismic/seiAcquisitioninfosearch/";
         axios
@@ -750,7 +687,6 @@ export default {
       // 改变每页显示的条数
       this.PageSize = val;
       // 点击每页显示的条数时，显示第一页
-      // this.showData(val, 1);
       if (!this.flag) {
         this.showData(val, 1); // this.pageSize是undefined，使用选定的或默认值
       } else {
@@ -780,21 +716,10 @@ export default {
 /* 全局样式 */
 </style>
 <style lang="scss" scoped>
-/* 本地样式 */
-// 设置真个数据内容的大小
-// .DataShow {
-//   // height: 775px;
-//   // height: 810px;
-// }
 // 设置搜索框的大小
 .data_search {
   height: 45px !important;
 }
-// 设置表格数据大小，表格+分页
-// .data_content {
-//   // height: 680px !important;
-//   // overflow: auto;
-// }
 // 设置表格数据大小
 .data_table {
   height: 650px !important; //注意这个高度和table中max-height="620px"对应,避免部分内容展示不出来
@@ -817,7 +742,4 @@ export default {
 .block {
   padding-top: 15px;
 }
-// .el-scrollbar__wrap {
-//   overflow-x: hidden; //设置滚动条隐藏
-// }
 </style>

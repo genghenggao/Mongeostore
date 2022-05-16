@@ -65,7 +65,7 @@ MIDDLEWARE = [
     # 'dwebsocket.middleware.WebSocketMiddleware',  # 为所有的URL提供websocket，如果只是单独的视图需要可以不选
 ]
 
-WEBSOCKET_ACCEPT_ALL=True   # 可以允许每一个单独的视图实用websockets
+WEBSOCKET_ACCEPT_ALL = True   # 可以允许每一个单独的视图实用websockets
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -96,44 +96,7 @@ WSGI_APPLICATION = 'mongeostore_v1.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-
-        # 使用djongo设置mongodb
-        # 'ENGINE': 'djongo',
-        # 'NAME': 'django_example',
-        # 'CLIENT': {
-        #     'host': '192.168.92.145:27017',
-        # }
     },
-    # 'others': {
-    #     'ENGINE': 'djongo',
-    #     'NAME': 'Django的一些参数',
-    #     'CLIENT': {
-    #         'host': '192.168.92.145:20000',
-    #     }
-    # },
-    # 'drill': {
-    #     'ENGINE': 'djongo',
-    #     'NAME': '钻孔数据管理子系统',
-    #     'CLIENT': {
-    #         'host': '192.168.92.145:20000',
-    #     }
-    # },
-    # 'geological': {
-    #     'ENGINE': 'djongo',
-    #     'NAME': '地质数据管理子系统',
-    #     'CLIENT': {
-    #         'host': '192.168.92.145:20000',
-    #     }
-    # },
-    # 'seismic': {
-    #     'ENGINE': 'djongo',
-    #     'NAME': '地震数据管理子系统',
-    #     'CLIENT': {
-    #         'host': '192.168.92.145:20000',
-    #     }
-    # },
 }
 
 # 数据库路由
@@ -142,17 +105,10 @@ DATABASE_ROUTERS = ['mongeostore_v1.database_router.DatabaseAppsRouter']
 # 设置APP对应的数据库路由表,不指定则会自动创建到默认（default）的数据库中
 DATABASE_APPS_MAPPING = {
     # example:
-    # 'app_name':'database_name',
     'mongeostore_app': 'default',
     'mongeostore_load': 'drill',  # 这里由于数据库用到不同的集合，可以在models中具体配置
-    # 如果想要同一个app使用不同的数据库，可以套用不同App创建不同数据库，创建空app；
-    # 'drill_database', 'geological_database'需加到INSTALLED_APPS中，它们是通过startapp创建的两个空app
-    # 'drill_database': 'drill',
-    # 'geological_database': 'geological'
 }
 
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -169,19 +125,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/3.1/topics/i18n/
-
-# LANGUAGE_CODE = 'en-us'
-
-# TIME_ZONE = 'UTC'
-
-# USE_I18N = True
-
-# USE_L10N = True
-
-# USE_TZ = True
 LANGUAGE_CODE = 'zh-hans'
 
 TIME_ZONE = 'Asia/Shanghai'

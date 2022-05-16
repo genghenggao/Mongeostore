@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-16 15:37:36
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-28 11:30:44
+ * @LastEditTime: 2022-05-13 11:22:47
 -->
 <template>
   <div>
@@ -13,18 +13,13 @@
       ref="chart"
       style="width: 100%; height: 600px; margin: 0 auto"
     ></div>
-    <!-- <remote-script
-      src="https://gallerybox.echartsjs.com/dep/echarts/map/js/china.js"
-    ></remote-script
-    >; -->
+
   </div>
 </template>
 
 <script>
 import * as echarts from "echarts/lib/echarts";
 import china from "echarts/map/js/china.js";
-// import china from "@/assets/js/china.js";
-// var echarts = require("echarts");
 export default {
   name: "SeismicProfile",
   data() {
@@ -35,12 +30,8 @@ export default {
   },
   created() {},
   mounted() {
-    // 引入china.json
     this.showDataResource();
-    // let script = document.createElement("script");
-    // script.type = "text/javascript";
-    // script.src = "https://gallerybox.echartsjs.com/dep/echarts/map/js/china.js";
-    // document.body.appendChild(script);
+
   },
   watch: {},
   methods: {

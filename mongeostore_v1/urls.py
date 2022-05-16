@@ -4,7 +4,7 @@ version: v1.0.0
 Author: henggao
 Date: 2020-08-26 16:59:36
 LastEditors: henggao
-LastEditTime: 2020-12-16 21:37:58
+LastEditTime: 2022-05-13 10:46:57
 '''
 """mongeostore_v1 URL Configuration
 
@@ -36,17 +36,12 @@ import verification.urls
 from django.conf.urls import url, include
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('send/sms/', views.send_sms),
     path('api/', include(mongeostore_app.urls)),
     path('load/', include(mongeostore_load.urls)),
     path('seismic/', include(mongeostore_seismic.urls)),
     path('user/', include(mongeostore_users.urls)),
     path('code/', include(verification.urls)),
     path('', TemplateView.as_view(template_name="index.html")),
-    # mongeostore #
-    # path('register/', views.register),
-    # re_path(r'.*', TemplateView.as_view(template_name='index.html'))
     re_path(r'.*', TemplateView.as_view(template_name='index.html')),
-
     path('captcha/', include('captcha.urls'))   # 增加这一行
 ]

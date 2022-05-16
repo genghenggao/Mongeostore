@@ -1,19 +1,3 @@
-<!--
- * @Description: henggao_learning
- * @version: v1.0.0
- * @Author: henggao
- * @Date: 2020-11-24 18:21:37
- * @LastEditors: henggao
- * @LastEditTime: 2020-11-24 18:29:11
--->
-<!--
- * @Description: henggao_learning
- * @version: v1.0.0
- * @Author: henggao
- * @Date: 2020-11-18 21:39:35
- * @LastEditors: henggao
- * @LastEditTime: 2020-11-24 17:34:11
--->
 <template>
   <div class="DataShow">
     <el-container>
@@ -87,17 +71,6 @@
             <el-table-column type="selection" width="55"> </el-table-column>
             <!-- 添加_id字段 -->
             <el-table-column label="_id" prop="_id.$oid"> </el-table-column>
-            <!-- 筛选字段 filters,这只是筛选当页的-->
-            <!-- <el-table-column
-              fixed="left"
-              label="ZK_num"
-              prop="ZK_num"
-              width="100"
-              :filters="filter_data"
-              :filter-method="filterHandler"
-            ></el-table-column> -->
-            <!-- 生成关键词 cols存放关键词-->
-            <!-- <template v-for="(col, index) in cols"> -->
             <template v-for="col in cols">
               <!-- 设置排序字段 -->
               <el-table-column
@@ -153,8 +126,7 @@
           >
           </el-pagination>
         </div>
-        <!-- 下面这个用来设置点击添加按钮的弹出框，里面可以进行嵌套表格来展示弹出的表格信息,使用下面的:visible.sync来控制显示与否。里面绑定的是我们新设置的值，填写完成后，将我们这个新值塞到页面中所有的数据当中去  -->
-        <!-- 添加数据的对话框 -->
+
         <el-dialog
           title="添加数据"
           :visible.sync="dialogVisible"
@@ -170,14 +142,7 @@
             label-width="100px"
           >
             <template v-for="(item, key) of addForm">
-              <!-- <el-form-item
-                v-if="key == '_id'"
-                :label="key"
-                :prop="key"
-                :key="key"
-              >
-                <el-input v-model="addForm[key]"></el-input>
-              </el-form-item> -->
+ 
               <el-form-item
                 v-if="key !== '_id'"
                 :label="key"
@@ -186,15 +151,7 @@
               >
                 <el-input v-model="add_to_data[key]"></el-input>
               </el-form-item>
-              <!-- <el-form-item label="密码" prop="password">
-              <el-input v-model="addForm.password"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="addForm.email"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号" prop="mobile">
-              <el-input v-model="addForm.mobile"></el-input>
-            </el-form-item> -->
+ 
             </template>
           </el-form>
           <!-- 底部区域 -->
@@ -224,7 +181,6 @@
 import axios from "axios";
 import qs from "qs";
 
-// import SearchData from "@/components/SearchData.vue";
 export default {
   name: "CommonData",
   components: {
@@ -350,87 +306,46 @@ export default {
       const url = "http://127.0.0.1:8000/load/commonmetashow/";
       axios
         .get(url, {
-          // orgCode: 1,
-          // // 每页显示的条数
-          // PageSize: n1,
-          // // 显示第几页
-          // currentPage: n2
+  
           params: {
             // 设置上传到后端的数据库和集合名称
             dbname: this.$store.state.title_message,
           },
         })
         .then((response) => {
-          // var res = JSON.parse(response.bodyText);
-          // console.log(response);
-          // console.log(response.data);
-          // console.log("取到单个数据");
-          // console.log(typeof response.data);
-          // let detailsnew = JSON.parse(JSON.stringify(this.detailslist));
-          // var datatset = [];
-          // datatset.push(response.data);
-          // console.log(typeof datatset);
-          // console.log(datatset);
-          // datatset = response.data
-          // console.log(datatset)
-          // console.log(this.tableData)
-          // console.log(typeof this.tableData)
-          // this.tableData = datatset;
-          // 将数据赋值给tableData
+
           this.tableData = response.data;
-          // this.tableData = this.$store.state.colData;
-          // this.searchCondition = response.data;
-          // 分页所需信息
-          // 将数据的长度赋值给totalCount
-          // this.totalCount = response.data.length; //分页总数
+
           this.totalCount = this.tableData.length; //分页总数
           //渲染表格,根据值
           this.currentChangePage(this.tableData);
-          //页面初始化数据需要判断是否检索过
-          // console.log(this.tableData);
-          // console.log(typeof this.tableData);
-          // 获取字段信息
-          // this.cols = ""
+  
           let tmp = this.tableData[0];
           // console.log(tmp);
           var listcol = [];
           for (var key in tmp) {
-            //  { label: "节点编号_id", prop: "_id.$oid", nickname: "normal" },
-            //   console.log(key);
-            //   console.log(typeof key);
-            // console.log(key[1])
+  
             listcol.push({
               label: key,
               prop: key,
               // Depth: "normal",
             });
           }
-          // console.log(listcol);
-          // listcol[0].prop = "_id.$oid"; //_id是一个对象，取值
+
           listcol[0].prop = "_id"; //_id是一个对象，取值，使用这个为了取值
           listcol.splice(0, 1); //去掉_id、ZK_num字段,自己在页面添加，为了更好的遍历
-          // console.log(listcol);
-          // listcol[6].nickname = "sort"; //按字段设置排序
-          // listcol[0].Depth = "sort"; //按字段设置排序
+
           this.cols = listcol;
 
-          // 添加数据设置字段
-          // delete tmp._id; //删除_id字段，
           this.addForm = tmp;
-          // this.addForm = JSON.parse(tmp_addForm) //数组转json
-          // console.log(this.addForm); //Object
-          // console.log(typeof this.addForm);
-          // 生成一个筛选字段ZKX，赋值给filter_data
+
           let tem_list = [];
           for (let i = 0; i < 55; i++) {
-            // const element = array[i];
             let ZK = "ZK";
             let ZKX = ZK + i;
-            // {text:"ZKX",value;"ZKX"}
             let json_data = { text: ZKX, value: ZKX };
             tem_list.push(json_data);
           }
-          // console.log(tem_list);
           this.filter_data = tem_list;
         });
     },
@@ -447,8 +362,6 @@ export default {
 
     // 点击按钮，添加数据
     addData() {
-      // this.addForm.visible = true;
-      // 发送添加数据的网络请求
       const url = "http://127.0.0.1:8000/load/commonadd_data/";
       let tmp_data = this.add_to_data;
       console.log(tmp_data); //这个取得值是undefined，但可以成功发送到后端
@@ -485,15 +398,7 @@ export default {
       if (row.isEdit) {
         // 点击保存的
         this.$delete(row, "isEdit");
-        // console.log("开始delete");
-        // console.log(index, row); //把row发送给后端
-        // console.log(row["_id"]["$oid"]); //把row发送给后端
-        // row["id"] = row["_id"]["$oid"];
-        // row["help_param"] = "help_param"; //用于解决后端smscode参数为3019"}多了"}问题
-        // let postData = qs.stringify(row); // w为了解决后端拿不到数据问题
-        // postData["_id"] = row["_id"]["$oid"];
-        // console.log(typeof postData);
-        // console.log(row["id"]);
+
         let json_data = JSON.stringify(row);
 
         const url = "http://127.0.0.1:8000/load/commoneditdata/";
@@ -518,10 +423,8 @@ export default {
       } else {
         // 点击编辑
         this.$set(row, "isEdit", true);
-        // console.log("开始set");
-        // console.log(index, row);
+
       }
-      // console.log(this.tableData);s
     },
     // 删除按钮
     deleteRow(index, rows, row) {
@@ -554,8 +457,6 @@ export default {
             )
             .then((res) => {
               console.log("删除成功");
-              // 重新获取用户列表数据
-              // this.showData();
               //通过flag判断,刷新数据
               if (!this.flag) {
                 this.showData();
@@ -573,7 +474,6 @@ export default {
     },
     // 开始搜索
     onSearchSubmit() {
-      // this.initAdminList(1);
       if (this.searchCondition.filter_key == "") {
         this.$message.warning("查询条件不能为空！");
         return;
@@ -592,25 +492,20 @@ export default {
           if (response.data) {
             this.tableData = response.data; //返回查询的数据
             console.log(response.data);
-            // console.log(this.tableData);
             // 总共数据
             var count = Object.keys(response.data).length;
             // console.log(count)
             this.totalCount = count;
-            // tmp_count = (count%10+1)*10
             let countarr = [];
             for (let i = 0; i < (count % 10) + 1; i++) {
               const tencount = (i + 1) * 10;
               countarr.push(tencount);
             }
-            // 个数选择器（可修改）
-            // console.log(countarr);
             this.pageSizes = countarr; //有个小意外，这个地方设置了，变不会去了
             this.orgCode = 1;
             // 每页显示的条数
             this.PageSize = 10;
             // 显示第几页
-            // this.currentPage = 1;
           } else {
             // alert("输入有误或数据不存在");
             this.$message.warning("输入有误或数据不存在");
@@ -630,10 +525,7 @@ export default {
       console.log(`每页 ${val} 条`);
       // 改变每页显示的条数
       this.PageSize = val;
-      // 点击每页显示的条数时，显示第一页
-      // this.showData(val, 1);
-      // 注意：在改变每页显示的条数时，要将页码显示到第一页
-      // this.currentPage = 1;
+
       this.handleCurrentChange(this.currentPage);
     },
     // 监听 pageSize 改变的事件，显示第几页
@@ -641,15 +533,7 @@ export default {
       console.log(`当前页: ${val}`);
       // 改变默认的页数
       this.currentPage = val;
-      // 切换页码时，要获取每页显示的条数
-      // this.showData(this.PageSize, val * this.pageSize);
-      //需要判断是否检索
-      // if (!this.flag) {
-      //   //tableDataBegin不能写成tableDataEnd，不然在没有进行搜索功能的时候，不能进行分页操作，数据丢失
-      //   this.currentChangePage(this.tableDataBegin);
-      // } else {
-      //   this.currentChangePage(this.filterTableDataEnd);
-      // }
+
     },
     //组件自带监控当前页码
     currentChangePage(list) {

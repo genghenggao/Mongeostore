@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-11-04 17:05:21
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-18 11:14:04
+ * @LastEditTime: 2022-05-13 11:04:36
 -->
 <template>
   <div class="DataShow">
@@ -243,28 +243,7 @@ export default {
       // 验证不通过，不合法
       callback(new Error("请输入正确的钻孔号(如'ZK1')"));
     };
-    // // 验证邮箱的校验规则
-    // var checkEmail = (rule, value, callback) => {
-    //   // 验证邮箱的正则表达式
-    //   const regEmail = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\\.[a-zA-Z0-9_-])+/;
-    //   if (regEmail.test(value)) {
-    //     // 验证通过，合法的邮箱
-    //     return callback();
-    //   }
-    //   // 验证不通过，不合法
-    //   callback(new Error("请输入合法的邮箱"));
-    // };
-    // // 验证手机号的验证规则
-    // var checkMobile = (rule, value, callback) => {
-    //   // 验证手机号的正则表达式
-    //   const regMobile = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$/;
-    //   if (regMobile.test(value)) {
-    //     // 验证通过，合法的手机号
-    //     return callback();
-    //   }
-    //   // 验证不通过，不合法
-    //   callback(new Error("请输入合法的手机号"));
-    // };
+
     return {
       // cols prop属性值都是作为 tableData的属性
       cols: [
@@ -273,11 +252,7 @@ export default {
         { label: "类型combat", prop: "combat", nickname: "normal" },
         { label: "状态level", prop: "level", nickname: "normal" },
         { label: "坐标rid", prop: "rid", nickname: "normal" },
-        // { label: "rid", prop: "_id.$oid", ZK_num: "normal" },
-        // { label: "ZK_num", prop: "ZK_num", ZK_num: "normal" },
-        // { label: "Depth", prop: "Depth", ZK_num: "sort" },
-        // { label: "Azimuth", prop: "Azimuth", ZK_num: "normal" },
-        // { label: "Inclination", prop: "Inclination", ZK_num: "normal" }
+
       ],
       //   表格数据
       tableData: [
@@ -344,22 +319,7 @@ export default {
           { min: 3, max: 10, message: "数据格式为'ZK1'", trigger: "blur" },
           { validator: checkZK_num, trigger: "blur" },
         ],
-        //   username: [
-        //     { required: true, message: "请输入用户名", trigger: "blur" },
-        //     { min: 3, max: 10, message: "长度在 3 到 10 个字符", trigger: "blur" }
-        //   ],
-        //   password: [
-        //     { required: true, message: "请输入密码", trigger: "blur" },
-        //     { min: 3, max: 10, message: "长度在 6 到 15 个字符", trigger: "blur" }
-        //   ],
-        //   email: [
-        //     { required: true, message: "请输入邮箱", trigger: "blur" },
-        //     { validator: checkEmail, trigger: "blur" }
-        //   ],
-        //   mobile: [
-        //     { required: true, message: "请输入手机号", trigger: "blur" },
-        //     { validator: checkMobile, trigger: "blur" }
-        //   ]
+
       },
       // 搜索对象
       searchCondition: {
@@ -398,81 +358,39 @@ export default {
       const url = "http://127.0.0.1:8000/load/showdata/";
       axios
         .get(url, {
-          // orgCode: 1,
-          // // 每页显示的条数
-          // PageSize: n1,
-          // // 显示第几页
-          // currentPage: n2
+
         })
         .then((response) => {
-          // var res = JSON.parse(response.bodyText);
-          // console.log(response);
-          // console.log(response.data);
-          // console.log("取到单个数据");
-          // console.log(typeof response.data);
-          // let detailsnew = JSON.parse(JSON.stringify(this.detailslist));
-          // var datatset = [];
-          // datatset.push(response.data);
-          // console.log(typeof datatset);
-          // console.log(datatset);
-          // datatset = response.data
-          // console.log(datatset)
-          // console.log(this.tableData)
-          // console.log(typeof this.tableData)
-          // this.tableData = datatset;
-          // 将数据赋值给tableData
+    
           this.tableData = response.data;
-          // this.searchCondition = response.data;
-          // 分页所需信息
-          // 将数据的长度赋值给totalCount
           this.totalCount = response.data.length; //分页总数
           //渲染表格,根据值
           this.currentChangePage(this.tableData);
-          //页面初始化数据需要判断是否检索过
-          // console.log(this.tableData);
-          // console.log(typeof this.tableData);
-          // 获取字段信息
-          // this.cols = ""
+       
           let tmp = response.data[0];
-          // console.log(tmp);
           var listcol = [];
           for (var key in tmp) {
-            //  { label: "节点编号_id", prop: "_id.$oid", nickname: "normal" },
-            //   console.log(key);
-            //   console.log(typeof key);
-            // console.log(key[1])
+   
             listcol.push({
               label: key,
               prop: key,
               Depth: "normal",
             });
           }
-          // console.log(listcol);
-          // listcol[0].prop = "_id.$oid"; //_id是一个对象，取值
           listcol[0].prop = "_id"; //_id是一个对象，取值，使用这个为了取值
           listcol.splice(0, 2); //去掉_id、ZK_num字段,自己在页面添加，为了更好的遍历
-          // listcol[6].nickname = "sort"; //按字段设置排序
-          // console.log(listcol);
           listcol[0].Depth = "sort"; //按字段设置排序
           this.cols = listcol;
 
           // 添加数据设置字段
-          // delete tmp._id; //删除_id字段，
           this.addForm = tmp;
-          // this.addForm = JSON.parse(tmp_addForm) //数组转json
-          // console.log(this.addForm); //Object
-          // console.log(typeof this.addForm);
-          // 生成一个筛选字段ZKX，赋值给filter_data
           let tem_list = [];
           for (let i = 0; i < 55; i++) {
-            // const element = array[i];
             let ZK = "ZK";
             let ZKX = ZK + i;
-            // {text:"ZKX",value;"ZKX"}
             let json_data = { text: ZKX, value: ZKX };
             tem_list.push(json_data);
           }
-          // console.log(tem_list);
           this.filter_data = tem_list;
         });
     },
@@ -489,7 +407,6 @@ export default {
 
     // 点击按钮，添加数据
     addData() {
-      // this.addForm.visible = true;
       // 发送添加数据的网络请求
       const url = "http://127.0.0.1:8000/load/add_data/";
       let tmp_data = this.add_to_data;
@@ -500,8 +417,6 @@ export default {
 
       // 隐藏添加用户的对话框
       this.dialogVisible = false;
-      // 重新获取用户列表数据
-      // this.showData();
       //通过flag判断,刷新数据
       if (!this.flag) {
         this.showData();
@@ -515,20 +430,11 @@ export default {
     },
     // 编辑（修改）按钮
     handleEdit(index, row) {
-      // console.log(index, row);
       // 动态设置数据并通过这个数据判断显示方式
       if (row.isEdit) {
         // 点击保存的
         this.$delete(row, "isEdit");
-        // console.log("开始delete");
-        // console.log(index, row); //把row发送给后端
-        // console.log(row["_id"]["$oid"]); //把row发送给后端
-        // row["id"] = row["_id"]["$oid"];
-        // row["help_param"] = "help_param"; //用于解决后端smscode参数为3019"}多了"}问题
-        // let postData = qs.stringify(row); // w为了解决后端拿不到数据问题
-        // postData["_id"] = row["_id"]["$oid"];
-        // console.log(typeof postData);
-        // console.log(row["id"]);
+
         let json_data = JSON.stringify(row);
 
         const url = "http://127.0.0.1:8000/load/editdata/";
@@ -536,13 +442,11 @@ export default {
           .post(
             url,
             {
-              // data: JSON.stringify(row) //data用于post请求
               json_data,
             },
             {
               headers: { "Content-Type": "application/x-www-form-urlencoded" },
             }
-            // console.log(postData)
           )
           .then((res) => {
             console.log("编辑成功");
@@ -550,10 +454,8 @@ export default {
       } else {
         // 点击编辑
         this.$set(row, "isEdit", true);
-        // console.log("开始set");
-        // console.log(index, row);
+
       }
-      // console.log(this.tableData);s
     },
     // 删除按钮
     deleteRow(index, rows, row) {
@@ -581,8 +483,6 @@ export default {
             )
             .then((res) => {
               console.log("删除成功");
-              // 重新获取用户列表数据
-              // this.showData();
               //通过flag判断,刷新数据
               if (!this.flag) {
                 this.showData();
@@ -616,27 +516,21 @@ export default {
           if (response.data) {
             this.tableData = response.data; //返回查询的数据
             console.log(response.data);
-            // console.log(this.tableData);
             // 总共数据
             var count = Object.keys(response.data).length;
-            // console.log(count)
             this.totalCount = count;
-            // tmp_count = (count%10+1)*10
             let countarr = [];
             for (let i = 0; i < (count % 10) + 1; i++) {
               const tencount = (i + 1) * 10;
               countarr.push(tencount);
             }
             // 个数选择器（可修改）
-            // console.log(countarr);
             this.pageSizes = countarr; //有个小意外，这个地方设置了，变不会去了
             this.orgCode = 1;
             // 每页显示的条数
             this.PageSize = 10;
             // 显示第几页
-            // this.currentPage = 1;
           } else {
-            // alert("输入有误或数据不存在");
             this.$message.warning("输入有误或数据不存在");
             return;
           }
@@ -655,9 +549,6 @@ export default {
       // 改变每页显示的条数
       this.PageSize = val;
       // 点击每页显示的条数时，显示第一页
-      // this.showData(val, 1);
-      // 注意：在改变每页显示的条数时，要将页码显示到第一页
-      // this.currentPage = 1;
       this.handleCurrentChange(this.currentPage);
     },
     // 监听 pageSize 改变的事件，显示第几页
@@ -665,15 +556,7 @@ export default {
       console.log(`当前页: ${val}`);
       // 改变默认的页数
       this.currentPage = val;
-      // 切换页码时，要获取每页显示的条数
-      // this.showData(this.PageSize, val * this.pageSize);
-      //需要判断是否检索
-      // if (!this.flag) {
-      //   //tableDataBegin不能写成tableDataEnd，不然在没有进行搜索功能的时候，不能进行分页操作，数据丢失
-      //   this.currentChangePage(this.tableDataBegin);
-      // } else {
-      //   this.currentChangePage(this.filterTableDataEnd);
-      // }
+
     },
     //组件自带监控当前页码
     currentChangePage(list) {

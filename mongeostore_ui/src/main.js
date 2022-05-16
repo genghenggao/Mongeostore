@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-08-26 17:15:17
  * @LastEditors: henggao
- * @LastEditTime: 2021-01-04 21:34:41
+ * @LastEditTime: 2022-05-13 10:50:57
  */
 import Vue from "vue";
 import Vuex from 'vuex'  // 引入 vuex
@@ -21,8 +21,6 @@ import i18n from './i18n'
 
 // BootStrap
 import "jquery";
-// import $ from 'jquery';
-// import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "bootstrap/dist/js/bootstrap.min.js";
 
@@ -71,17 +69,8 @@ VueAMap.initAMapApiLoader({
   plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],   //插件
   // v: "1.4.4"  //版本号，默认高德sdk版本为1.4.4，可自行修改
 })
-// Vue.prototype.VueAMap = VueAMap;
-
 
 Vue.use(uploader)
-
-
-// // 设置反向代理，前端请求默认发送到 http://localhost:8080/api
-// var axios = require("axios");
-// axios.defaults.baseURL = "http://localhost:8080/api";
-// // 全局注册，之后可在其他组件中通过 this.$axios 发送数据
-// Vue.prototype.$axios = axios;
 
 Vue.config.productionTip = false;
 
@@ -108,8 +97,6 @@ Viewer.setDefaults({
     'url': 'data-source' // 设置大图片的 url
   }
 })
-
-// Vue.use(VueWebsocket);
 
 Vue.prototype.global = global // 挂载全局配置模块
 Vue.prototype.$echarts = echarts;

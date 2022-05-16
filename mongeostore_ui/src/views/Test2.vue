@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-09-28 18:39:36
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-03 10:07:36
+ * @LastEditTime: 2022-05-13 10:57:30
 -->
 <template>
   <div>
@@ -99,35 +99,7 @@
             <UploadFile />
           </div>
         </div>
-        <!-- <table class="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
-            </tr>
-            <tr>
-              <th scope="row">2</th>
-              <td>Jacob</td>
-              <td>Thornton</td>
-              <td>@fat</td>
-            </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td colspan="2">Larry the Bird</td>
-              <td>@twitter</td>
-            </tr>
-          </tbody>
-        </table> -->
+ 
       </div>
     </div>
     <Footbar />
@@ -193,21 +165,12 @@ export default {
   padding: 0;
 }
 .col-2 {
-  // 消除边距
-  // padding: 0;
-  // height: 100%;
-  // padding-left: 0;
-  // padding-right: 0;
-  // padding-bottom: 50px;
   margin: 0px;
   padding: 0px;
 }
 .col-10 {
-  // padding-left: 0;
-  // padding-right: 0;
   margin: 0px;
   padding: 0px;
-  // height: 100vh;
 }
 .row {
   margin: 0px;

@@ -1,19 +1,3 @@
-<!--
- * @Description: henggao_learning
- * @version: v1.0.0
- * @Author: henggao
- * @Date: 2020-12-27 18:11:18
- * @LastEditors: henggao
- * @LastEditTime: 2021-04-13 20:10:34
--->
-<!--
- * @Description: henggao_learning
- * @version: v1.0.0
- * @Author: henggao
- * @Date: 2020-12-27 09:51:40
- * @LastEditors: henggao
- * @LastEditTime: 2020-12-27 16:28:24
--->
 <template>
   <div>
     <div
@@ -21,19 +5,12 @@
       ref="chart"
       style="width: 100%; height: 811px; margin: 0 auto"
     ></div>
-    <!-- <remote-script
-      src="https://gallerybox.echartsjs.com/dep/echarts/map/js/china.js"
-    ></remote-script
-    >; -->
   </div>
 </template>
 
 <script>
-// import $ from "jquery";
 import * as echarts from "echarts/lib/echarts";
 import china from "echarts/map/js/china.js";
-// import china from "@/assets/js/china.js";
-// var echarts = require("echarts");
 export default {
   name: "SeismicProfile",
   data() {
@@ -529,7 +506,6 @@ export default {
         }
       }
       // 使用刚指定的配置项和数据显示图表。
-      // mychart.setOption(option); // 加上true表示不合并配置
     },
   },
 };

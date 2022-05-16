@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-16 22:18:57
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-24 16:17:40
+ * @LastEditTime: 2022-05-13 11:18:03
 -->
 <template>
   <el-row :gutter="20">
@@ -192,8 +192,7 @@ export default {
         },
         multipart_params: {
           uuid: "", //参数
-          // testparams: "Must can see me",
-          // "testparams2": "Must can see me2"
+
         },
       },
     };
@@ -211,7 +210,6 @@ export default {
     //上传成功监听
     this.uploader.bind("FileUploaded", this.FileUploaded);
     //获取uuid
-    // let url = `http://127.0.0.1:8000/api/uploadinfo/`;
     let url = `http://127.0.0.1:8000/seismic/geologicalinfo/`;
     axios.get(url).then(({ data }) => {
       this.fileOptions.multipart_params.uuid = data;
@@ -238,7 +236,6 @@ export default {
       }
       if (uploader.files.length > 1) {
         // 最多上传3张图
-        // $.messager.show("提示", "只能上传一个文件，请删除多余文件！", "info");
         this.$message({
           type: "error",
           message: "只能上传一个文件,请先删除！",
@@ -336,10 +333,7 @@ export default {
         }
       });
     },
-    //开始上传
-    // FileUplodeOn() {
-    //   this.uploader.start();
-    // },
+
     onSubmit() {
       if (
         this.form["geological_filename"] == "" ||

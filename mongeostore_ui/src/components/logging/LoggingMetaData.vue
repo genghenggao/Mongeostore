@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-16 15:08:04
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-24 16:23:59
+ * @LastEditTime: 2022-05-13 11:21:33
 -->
 <template>
   <div class="DataShow">
@@ -67,15 +67,7 @@
                 >上传</el-button
               >
             </el-form-item>
-            <!-- <el-form-item id="addNew-item">
-              <el-button
-                type="info"
-                plain
-                icon="el-icon-edit"
-                @click="dialogVisible = true"
-                >新增</el-button
-              >
-            </el-form-item> -->
+
           </el-form>
         </section>
         <!--搜索头 结束-->
@@ -780,25 +772,15 @@ export default {
 /* 全局样式 */
 </style>
 <style lang="scss" scoped>
-/* 本地样式 */
-// 设置真个数据内容的大小
-// .DataShow {
-//   // height: 775px;
-//   // height: 810px;
-// }
+
 // 设置搜索框的大小
 .data_search {
   height: 45px !important;
 }
-// 设置表格数据大小，表格+分页
-// .data_content {
-//   // height: 680px !important;
-//   // overflow: auto;
-// }
+
 // 设置表格数据大小
 .data_table {
   height: 650px !important; //注意这个高度和table中max-height="620px"对应,避免部分内容展示不出来
-  // overflow: auto;
 }
 // 搜索设置
 #search-title {
@@ -817,7 +799,5 @@ export default {
 .block {
   padding-top: 15px;
 }
-// .el-scrollbar__wrap {
-//   overflow-x: hidden; //设置滚动条隐藏
-// }
+
 </style>

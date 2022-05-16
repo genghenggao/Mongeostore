@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-11-18 21:39:35
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-26 21:24:09
+ * @LastEditTime: 2022-05-13 11:13:17
 -->
 <template>
   <div class="DataShow">
@@ -175,15 +175,7 @@
               >
                 <el-input v-model="add_to_data[key]"></el-input>
               </el-form-item>
-              <!-- <el-form-item label="密码" prop="password">
-              <el-input v-model="addForm.password"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="addForm.email"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号" prop="mobile">
-              <el-input v-model="addForm.mobile"></el-input>
-            </el-form-item> -->
+
             </template>
             <!-- 底部区域 -->
             <el-form-item>

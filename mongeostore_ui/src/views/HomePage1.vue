@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-11-03 15:18:02
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-13 10:55:44
+ * @LastEditTime: 2022-05-13 10:52:52
 -->
 <template>
   <div>
@@ -69,18 +69,6 @@ export default {
   /* 不是 border-right: 100px solid pink;  这样的话元素会没有高度 */
   border-right: 100px solid transparent;
 }
-/* .head.title::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
-  background: rgb(91, 137, 223);
-  transform: perspective(0.5em) rotateX(deg);
-  transform-origin: bottom left;
-} */
 
 /* 侧边栏 */
 .menutree {
@@ -92,9 +80,6 @@ export default {
 .el-main {
   padding: 0px;
 }
-/* .far_main_content {
-  padding: 0px;
-} */
 
 /* 尾部 */
 .el-footer {

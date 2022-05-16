@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-11-23 09:29:30
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-24 19:15:31
+ * @LastEditTime: 2022-05-13 11:02:45
 -->
 <template>
   <div class="seismictable" style="overflow: scroll; max-height: 775px">
@@ -25,46 +25,7 @@
         </tr>
       </thead>
       <tbody id="list"></tbody>
-      <!-- <tbody>
-        <tr v-for="file in files">
-          <td v-text="file._id"></td>
-          <td v-text="file.filename"></td>
-          <td v-text="file.contentType"></td>
-          <td v-text="file.length"></td>
-          <td v-text="file.uploadDate"></td>
-          <td v-text="file.publisher"></td>
-          <td v-text="file.aliases"></td>
-          <td v-text="file.metadata"></td>
-          <td v-text="file.md5"></td>
-          <td v-text="file.chunkSize"></td>
-        </tr>
-      </tbody> -->
-      <!-- <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-          <td>{{files.filename}}</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td colspan="2">Larry the Bird</td>
-          <td>@twitter</td>
-        </tr>
-      </tbody> -->
+   
     </table>
   </div>
 </template>
@@ -99,9 +60,7 @@ export default {
           },
         })
         .then((response) => {
-          // var res = JSON.parse(response.bodyText);
-          //   console.log(response);
-          // console.log(response.data.filename);
+
           var result = response.data.list;
           let dbname = this.$store.state.title_message;
           this.files = result;

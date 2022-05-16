@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-15 08:40:24
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-18 20:36:06
+ * @LastEditTime: 2022-05-13 11:09:51
 -->
 <template>
   <el-container>
@@ -942,10 +942,7 @@ export default {
         });
       } else {
         this.heatmapOverlay.show();
-        // console.log(points); //注意这里取值不是取this.points和this.heatmapOverlay
-        // console.log(heatmapOverlay);
-        // this.map.addOverLay(heatmapOverlay);
-        // heatmapOverlay.setDataSet({ data: points, max: 300 });
+       
       }
     },
 
@@ -977,19 +974,15 @@ export default {
       };
 
       //创建标注工具对象
-      // let polygonTool = new T.PolygonTool(this.map, config);
       if (handler) handler.close();
       handler = new T.PolygonTool(this.map, config);
       handler.open();
-      // console.log("多边形");
-      // this.removeMapClick();
       this.GeometricData = []; //清空数组中数据
       // this.PolygonList = {}; //清空数组中数据
 
       this.map.removeEventListener("click", this.MapClick); //消除单击事件
       this.map.addEventListener("click", this.MapClick); //监听地图单击事件，获取坐标
       this.map.addEventListener("dblclick", this.removeMapClick); //监听双击事件，出现双击时，调用removeMapClick()方法，结束单击事件
-      // this.map.removeEventListener("dblclick", this.MapClick); //鼠标双击事件
     },
     // 画矩形
     openRectangleTool() {
@@ -1039,11 +1032,6 @@ export default {
     // 监听矩形
     MapRectangle(e) {
       this.GeometricData = []; //清空数组中数据
-      // console.log(e.currentBounds);
-      // console.log(e.currentBounds.Lq.lng);
-      // console.log(e.currentBounds.Lq.lat);
-      // console.log(e.currentBounds.kq.lng);
-      // console.log(e.currentBounds.kq.lat);
       var coordnite1 = [e.currentBounds.Lq.lng, e.currentBounds.Lq.lat]; //获取经纬度
       var coordnite2 = [e.currentBounds.Lq.lng, e.currentBounds.kq.lat]; //获取经纬度
       var coordnite3 = [e.currentBounds.kq.lng, e.currentBounds.kq.lat]; //获取经纬度
@@ -1067,21 +1055,11 @@ export default {
         type: "Circle",
         data: this.GeometricData,
       };
-      // console.log(this.GeometricInfo);
-      // console.log(this.GeometricData);
     },
     // 发送图形数据，获取图形里的标注
     sendPolygon() {
-      // console.log(this.GeometricData);
-      // console.log(this.GeometricInfo);
       if (this.GeometricData.length == 0) {
-        // console.log("请先绘制多边形");
-        // this.$message({
-        //   showClose: true,
-        //   message: "请先绘制多边形",
-        //   type: "warning",
-        //   center: true,
-        // });
+;
         this.$notify.warning({
           title: "提示",
           message: "请先绘制多边形",
@@ -1110,10 +1088,7 @@ export default {
               });
             } else {
               for (let i in datainfo) {
-                // console.log(datainfo[i].locaton);
-                // console.log(datainfo[i].name);
                 let temp = datainfo[i].location;
-                // console.log(temp.coordinates);
                 //创建标注对象
                 var marker = new T.Marker(
                   new T.LngLat(temp.coordinates[0], temp.coordinates[1])
@@ -1121,19 +1096,7 @@ export default {
                 // 添加信息
                 var content = datainfo[i].name;
 
-                // var content =
-                //   "钻孔号:" +
-                //   datainfo[i].zk_name +
-                //   "," +
-                //   '<template slot-scope="scope">' +
-                //   " <router-link" +
-                //   '                   tag="a"' +
-                //   '                   :to="{' +
-                //   "                     path: '/mongeostore/drilldetails/' + scope.row.zk_num," +
-                //   '                   }"' +
-                //   "                   >查看详情</router-link" +
-                //   "                 >" +
-                //   "               </template>";
+
                 var content =
                   "钻孔号:" +
                   datainfo[i].zk_name +
@@ -1150,11 +1113,8 @@ export default {
           })
           .catch((err) => {
             // alert("请勿画交叉线");
-            // this.$message.error("请勿画交叉线");
             console.log(err);
-            // this.$alert("请勿出现交叉线段！", "友情提示", {
-            //   confirmButtonText: "确定",
-            // });
+
             this.$notify.warning({
               title: "提示",
               message: "请勿出现交叉线段！",
@@ -1178,8 +1138,6 @@ export default {
         if (valid) {
           // alert("submit!");
           this.tableData.push({
-            // lng: this.locationform.lng,
-            // lat: this.locationform.lat,
 
             lnglat: [
               parseFloat(this.locationform.lng),
@@ -1202,9 +1160,7 @@ export default {
     },
     // 查询数据
     searchLoaction() {
-      // console.log(this.tableData.length);
-      // console.log(this.tableData[0]);
-      // axios.get(url).then().catch()
+
       this.GeometricData = []; //清空数组中数据
       for (let index = 0; index < this.tableData.length; index++) {
         console.log(this.tableData[index].lnglat);
@@ -1228,17 +1184,14 @@ export default {
         // 1.在地图上绘制多边形
         var points = [];
         for (let index = 0; index < this.GeometricData.length; index++) {
-          // console.log(this.GeometricData[index]);
-          // console.log(this.GeometricData[index][0]);
+
           points.push(
             new T.LngLat(
               this.GeometricData[index][0],
               this.GeometricData[index][1]
             )
           );
-          // points.push(new T.LngLat(116.411794, 39.9068));
-          // points.push(new T.LngLat(116.32969, 39.9294));
-          // points.push(new T.LngLat(116.385438, 39.9061));
+
         }
         //创建面对象
         let polygon = new T.Polygon(points);
@@ -1270,14 +1223,7 @@ export default {
   padding-bottom: 5px;
 }
 
-// .result {
-//   display: none;
-//   font-size: 12px;
-//   border: 1px solid #999999;
-//   line-height: 27px;
-//   padding-left: 7px;
-// }
-// 表单label
+
 ::v-deep .el-form-item__label {
   color: #870000;
   padding: 0;
@@ -1286,11 +1232,7 @@ export default {
   margin-bottom: 0;
 }
 ::v-deep .el-form .el-form-item__error {
-  //   color: #f56c6c;
-  //   font-size: 5px;
-  // line-height: 1;
-  //   padding-top: 40%;
-  //   position: absolute;
+
   top: 33px;
   //   left: 0;
 }

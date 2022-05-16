@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-11-27 16:37:40
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-27 20:34:42
+ * @LastEditTime: 2022-05-13 11:13:07
 -->
 <template>
   <el-container>
@@ -39,7 +39,6 @@
             </el-image>
           </el-table-column>
           <el-table-column align="right">
-            <!-- <template slot="header" slot-scope="scope"> -->
             <template slot="header" slot-scope="{}">
               <el-input
                 v-model="search"
@@ -194,9 +193,6 @@ export default {
             )
             .then((res) => {
               console.log("删除成功");
-              // 重新获取用户列表数据
-              // this.showData();
-              //通过flag判断,刷新数据
               if (!this.flag) {
                 this.showData(this.PageSize, this.currentPage);
               } else {

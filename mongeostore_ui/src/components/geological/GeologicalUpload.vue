@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-16 22:12:40
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-24 16:17:57
+ * @LastEditTime: 2022-05-13 11:18:15
 -->
 <!--
  * @Description: henggao_learning
@@ -31,9 +31,7 @@
       </h2>
     </el-header>
     <el-main style="padding-top: 10px; min-width: 1100px; overflow: hidden">
-      <!-- <div style="">
-        <h3>钻孔编号：{{ ZK_num }}</h3>
-      </div> -->
+
       <el-row :gutter="20" style="margin: 0">
         <el-col :span="16" :offset="4">
           <el-tabs :tab-position="tabPosition">
@@ -41,10 +39,8 @@
               <GeologicalMetaUpload />
             </el-tab-pane>
             <el-tab-pane label="项目信息上传">
-              <!-- <ProjectInfoUpload /> -->
             </el-tab-pane>
             <el-tab-pane label="单位信息上传">
-              <!-- <CompanyInfoUpload /> -->
             </el-tab-pane>
             <el-tab-pane label="其他信息上传">其他信息上传</el-tab-pane>
           </el-tabs>
@@ -61,8 +57,7 @@ export default {
   name: "GeologicalUpload",
   components: {
     GeologicalMetaUpload,
-    // ProjectInfoUpload,
-    // CompanyInfoUpload,
+
   },
   data() {
     return {

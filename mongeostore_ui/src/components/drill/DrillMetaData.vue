@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-01 09:02:25
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-14 21:15:11
+ * @LastEditTime: 2022-05-13 11:11:05
 -->
 <template>
   <div class="DataShow">
@@ -86,19 +86,7 @@
           >
             <!-- 选择框设置 -->
             <el-table-column type="selection" width="55"> </el-table-column>
-            <!-- 添加_id字段 -->
-            <!-- <el-table-column label="_id" prop="_id"> </el-table-column> -->
-            <!-- 筛选字段 filters,这只是筛选当页的-->
-            <!-- <el-table-column
-              fixed="left"
-              label="ZK_num"
-              prop="ZK_num"
-              width="100"
-              :filters="filter_data"
-              :filter-method="filterHandler"
-            ></el-table-column> -->
-            <!-- 生成关键词 cols存放关键词-->
-            <!-- <template v-for="(col, index) in cols"> -->
+     
             <template v-for="col in cols">
               <!-- 设置排序字段 -->
               <el-table-column
@@ -123,21 +111,7 @@
               style="text-align: center"
             >
               <template slot-scope="scope">
-                <!-- <a
-                  :href="'drilldetails/' + scope.row._id"
-                  target="_blank"
-                  class="buttonText"
-                  >查看详情</a
-                > -->
-                <!-- to='/mongeostore/drilldetails' -->
-                <!-- <router-link
-                  tag="a"
-                  :to="{
-                    path: '/mongeostore/drilldetails/',
-                    query: { _id: scope.row._id },
-                  }"
-                  >查看详情</router-link
-                > -->
+
                 <router-link
                   tag="a"
                   :to="{
@@ -360,32 +334,14 @@ export default {
             { label: "项目名称", prop: "project_name" },
             { label: "单位名称", prop: "company_name" },
             { label: "上传人员", prop: "uploader" },
-            // { label: "钻孔柱状图", prop: "zk_histogram" },
           ];
 
-          // for (var key in tmp) {
-          //   listcol.push({
-          //     label: key,
-          //     prop: key,
-          //     // Depth: "normal",
-          //   });
-          // }
-          // console.log(listcol);
-          // listcol[0].prop = "_id.$oid"; //_id是一个对象，取值
-          // listcol[0].prop = "_id"; //_id是一个对象，取值，使用这个为了取值
-          // listcol.splice(0, 1); //去掉_id、ZK_num字段,自己在页面添加，为了更好的遍历
-          // console.log(listcol);
-          // listcol[6].nickname = "sort"; //按字段设置排序
-          // listcol[0].Depth = "sort"; //按字段设置排序
+
           this.cols = newcols;
 
           // 添加数据设置字段
-          // delete tmp._id; //删除_id字段，
           this.addForm = tmp;
-          // this.addForm = JSON.parse(tmp_addForm) //数组转json
-          // console.log(this.addForm); //Object
-          // console.log(typeof this.addForm);
-          // 生成一个筛选字段ZKX，赋值给filter_data
+   
           let tem_list = [];
           for (let i = 0; i < 55; i++) {
             // const element = array[i];
@@ -424,20 +380,11 @@ export default {
     },
     // 编辑（修改）按钮
     handleEdit(index, row) {
-      // console.log(index, row);
       // 动态设置数据并通过这个数据判断显示方式
       if (row.isEdit) {
         // 点击保存的
         this.$delete(row, "isEdit");
-        // console.log("开始delete");
-        // console.log(index, row); //把row发送给后端
-        // console.log(row["_id"]["$oid"]); //把row发送给后端
-        // row["id"] = row["_id"]["$oid"];
-        // row["help_param"] = "help_param"; //用于解决后端smscode参数为3019"}多了"}问题
-        // let postData = qs.stringify(row); // w为了解决后端拿不到数据问题
-        // postData["_id"] = row["_id"]["$oid"];
-        // console.log(typeof postData);
-        // console.log(row["id"]);
+
         let json_data = JSON.stringify(row);
 
         const url = "http://127.0.0.1:8000/load/editdrillhistogram/";
@@ -445,7 +392,6 @@ export default {
           .post(
             url,
             {
-              // data: JSON.stringify(row) //data用于post请求
               json_data,
               // 设置上传到后端的数据库和集合名称
               colname: this.$store.state.title_message,
@@ -462,10 +408,7 @@ export default {
       } else {
         // 点击编辑
         this.$set(row, "isEdit", true);
-        // console.log("开始set");
-        // console.log(index, row);
       }
-      // console.log(this.tableData);s
     },
     // 删除按钮
     deleteRow(index, rows, row) {
@@ -498,8 +441,6 @@ export default {
             )
             .then((res) => {
               console.log("删除成功");
-              // 重新获取用户列表数据
-              // this.showData();
               //通过flag判断,刷新数据
               if (!this.flag) {
                 this.showData(this.PageSize, this.currentPage);
@@ -523,8 +464,6 @@ export default {
         this.$message.warning("查询条件不能为空！");
         return;
       } else {
-        // console.log(this.searchCondition.filter_key);
-        // console.log(this.$store.state.temp_database);
         let filter_key_data = this.searchCondition.filter_key;
         const url = "http://127.0.0.1:8000/load/drillhistogramsearch/";
         axios
@@ -595,21 +534,12 @@ export default {
 </style>
 <style lang="scss" scoped>
 /* 本地样式 */
-// 设置真个数据内容的大小
-// .DataShow {
-//   // height: 775px;
-//   // height: 810px;
-// }
+
 // 设置搜索框的大小
 .data_search {
   height: 45px !important;
 }
-// 设置表格数据大小，表格+分页
-// .data_content {
-//   // height: 680px !important;
-//   // overflow: auto;
-// }
-// 设置表格数据大小
+
 .data_table {
   height: 650px !important; //注意这个高度和table中max-height="620px"对应,避免部分内容展示不出来
   // overflow: auto;
@@ -631,7 +561,5 @@ export default {
 .block {
   padding-top: 15px;
 }
-// .el-scrollbar__wrap {
-//   overflow-x: hidden; //设置滚动条隐藏
-// }
+
 </style>

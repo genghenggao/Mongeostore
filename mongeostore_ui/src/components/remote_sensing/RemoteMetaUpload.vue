@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-16 22:18:57
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-23 22:34:35
+ * @LastEditTime: 2022-05-13 11:26:10
 -->
 <template>
   <el-row :gutter="20">
@@ -192,8 +192,7 @@ export default {
         },
         multipart_params: {
           uuid: "", //参数
-          // testparams: "Must can see me",
-          // "testparams2": "Must can see me2"
+    
         },
       },
     };
@@ -211,7 +210,6 @@ export default {
     //上传成功监听
     this.uploader.bind("FileUploaded", this.FileUploaded);
     //获取uuid
-    // let url = `http://127.0.0.1:8000/api/uploadinfo/`;
     let url = `http://127.0.0.1:8000/seismic/remoteinfo/`;
     axios.get(url).then(({ data }) => {
       this.fileOptions.multipart_params.uuid = data;
@@ -238,7 +236,6 @@ export default {
       }
       if (uploader.files.length > 1) {
         // 最多上传3张图
-        // $.messager.show("提示", "只能上传一个文件，请删除多余文件！", "info");
         this.$message({
           type: "error",
           message: "只能上传一个文件,请先删除！",
@@ -251,9 +248,7 @@ export default {
         obj.id = val.id;
         obj.name = val.name;
         obj.type = val.type;
-        // obj.upload_date = val.upload_date;
         obj.upload_date = new Date().toLocaleString(); //获取日期与时间
-        // obj.publiser = val.publiser;
         obj.publisher = "publisher"; //获取当前登录用户信息
         obj.size = parseInt((val.origSize / 1024 / 1024) * 100) / 100;
         obj.percentage = 0;
@@ -315,7 +310,6 @@ export default {
     FileUploaded(uploader, file, responseObject) {
       this.fileList = this.fileList.map((val, ind) => {
         if (val.id == file.id) {
-          // if (JSON.parse(responseObject.response).status == 0) {
           if (status == 0) {
             val.loadType = 2;
           } else {
@@ -336,10 +330,7 @@ export default {
         }
       });
     },
-    //开始上传
-    // FileUplodeOn() {
-    //   this.uploader.start();
-    // },
+
     onSubmit() {
       if (
         this.form["remote_filename"] == "" ||

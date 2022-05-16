@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-01 08:36:23
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-31 20:05:33
+ * @LastEditTime: 2022-05-13 11:12:07
 -->
 <template>
   <el-row :gutter="20">
@@ -196,7 +196,7 @@ export default {
             {
               title: "files",
               extensions:
-                // "png,jpg,svg,mp4,rmvb,mpg,mxf,avi,mpeg,wmv,flv,mov,ts,docx,doc,pdf,segy,xls,xlsx,csv", //文件格式
+
                 "png,jpg,jpeg,svg",
             },
           ],
@@ -205,8 +205,7 @@ export default {
         },
         multipart_params: {
           uuid: "", //参数
-          // testparams: "Must can see me",
-          // "testparams2": "Must can see me2"
+
         },
       },
     };
@@ -251,7 +250,6 @@ export default {
       }
       if (uploader.files.length > 1) {
         // 最多上传3张图
-        // $.messager.show("提示", "只能上传一个文件，请删除多余文件！", "info");
         this.$message({
           type: "error",
           message: "只能上传一个文件,请先删除！",
@@ -343,9 +341,7 @@ export default {
       });
     },
     //开始上传
-    // FileUplodeOn() {
-    //   this.uploader.start();
-    // },
+
     onSubmit() {
       this.uploader.start();
     },

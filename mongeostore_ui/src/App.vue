@@ -4,15 +4,10 @@
  * @Author: henggao
  * @Date: 2020-08-26 17:15:17
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-24 16:45:30
+ * @LastEditTime: 2022-05-13 10:50:32
 -->
 <template>
   <div id="app">
-    <!-- <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/segy">Segy</router-link>
-    </div> -->
     <router-view />
   </div>
 </template>

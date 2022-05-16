@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-27 09:51:40
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-27 16:28:24
+ * @LastEditTime: 2022-05-13 11:23:05
 -->
 <template>
   <div>
@@ -13,10 +13,7 @@
       ref="chart"
       style="width: 600px; height: 400px; margin: 0 auto"
     ></div>
-    <!-- <remote-script
-      src="https://gallerybox.echartsjs.com/dep/echarts/map/js/china.js"
-    ></remote-script
-    >; -->
+
   </div>
 </template>
 
@@ -24,8 +21,6 @@
 // import $ from "jquery";
 import * as echarts from "echarts/lib/echarts";
 import china from "echarts/map/js/china.js";
-// import china from "@/assets/js/china.js";
-// var echarts = require("echarts");
 export default {
   name: "SeismicProfile",
   data() {
@@ -518,8 +513,6 @@ export default {
           init(data.cityCode);
         }
       }
-      // 使用刚指定的配置项和数据显示图表。
-      // mychart.setOption(option); // 加上true表示不合并配置
     },
   },
 };

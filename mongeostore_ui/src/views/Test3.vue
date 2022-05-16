@@ -126,37 +126,12 @@ export default {
       axios
         .get(url, {})
         .then((res) => {
-          // console.log(res.data); //打印后端传过来的数据,string
-          // console.log(res.data.length); //打印后端d对象个数
-          // console.log(typeof res.data); //打印后端传过来的数据类型
           this.data = res.data;
-          // var data_json = res.data.parseJSON();
-          // var data_json = JSON.parse(JSON.stringify(res.data));
-          // console.log(data_json);
-          // console.log(typeof data_json);
-          // temp_list.push(res.data);
-          // var arr = eval(temp_list);
-          // var temp_list = eval("(" + res.data + ")");
-          // console.log(arr);
-          // console.log(typeof arr);
-          // var arrParse = JSON.parse(arr)
-          // console.log(typeof arrParse);
-          // console.log(arrParse);
-          // this.data = temp_list //将数据赋值给data
-          // console.log(this.data);
-          // console.log(typeof this.data);
         })
         .catch();
     },
 
     append(data) {
-      // 前端添加集合
-      // const newChild = { id: id++, label: "NewDataBase", children: [] };
-      // if (!data.children) {
-      //   this.$set(data, "children", []);
-      // }
-      // data.children.push(newChild)
-      // console.log(data.children);
       let collections = [];
       for (let i = 0; i < data.children.length; i++) {
         const col_data = data.children[i];
@@ -164,8 +139,7 @@ export default {
         // console.log(collection);
         collections.push(collection);
       }
-      // console.log(collections);
-      // 用es6的new Set来生成一个Set数据结构的数据，从而调用has方法来判断，有则返回true，没有则false
+
       let temp = new Set(collections);
       this.$prompt("请输入中文名称", "添加数据（请勿重名）", {
         confirmButtonText: "确定",
@@ -216,13 +190,6 @@ export default {
     },
 
     rename(node, data) {
-      // const parent = node.parent;
-      // const children = parent.data.children || parent.data;
-      // const index = children.findIndex((d) => d.id === data.id);
-      // children.splice(index, 1);
-      // console.log(data.isEdit);
-      // console.log(data.id <= 2);
-      // data.label = "xiaocui";
       let url = "http://127.0.0.1:8000/load/editdatabasename/";
       this.$prompt("请输入新的名称", "重命名", {
         confirmButtonText: "确定",
@@ -304,56 +271,6 @@ export default {
     handleNodeClick(data) {
       console.log(data);
     },
-    // renderContent(h, { node, data, store }) {
-    //   // console.log(data.isEdit);
-    //   if (!data.isEdit) {
-    //     return (
-    //       <span class="custom-tree-node">
-    //         <span>{node.label}</span>
-    //         <span>
-    //           <el-button
-    //             size="mini"
-    //             type="text"
-    //             on-click={() => this.rename(node, data)}
-    //           >
-    //             <i class="el-icon-edit-outline"></i>
-    //           </el-button>
-    //           <el-button
-    //             size="mini"
-    //             type="text"
-    //             // v-show="node.isEdit"
-    //             on-click={() => this.remove(node, data)}
-    //           >
-    //             <i class="el-icon-delete"></i>
-    //           </el-button>
-    //         </span>
-    //       </span>
-    //     );
-    //   } else {
-    //     return (
-    //       <span class="custom-tree-node">
-    //         <span>{node.label}</span>
-    //         <span>
-    //           <el-button
-    //             size="mini"
-    //             type="text"
-    //             // v-show="!node.isEdit"
-    //             on-click={() => this.append(data)}
-    //           >
-    //             <i class="el-icon-plus"></i>
-    //           </el-button>
-    //           <el-button
-    //             size="mini"
-    //             type="text"
-    //             on-click={() => this.rename(node, data)}
-    //           >
-    //             <i class="el-icon-edit-outline"></i>
-    //           </el-button>
-    //         </span>
-    //       </span>
-    //     );
-    //   }
-    // },
   },
 };
 </script>

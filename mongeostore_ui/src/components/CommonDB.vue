@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-11-19 15:15:31
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-23 09:43:55
+ * @LastEditTime: 2022-05-13 11:00:54
 -->
 
 <template>
@@ -163,12 +163,10 @@ export default {
 /* maincontent子导航 */
 .maincontent div#nav-tab {
   height: 46px;
-  /* width: 100%; */
-  /* background-color: rgba(21, 132, 197, 0.5); */
+
   background-color: #870000;
-  /* position: static; */
 }
-/* maincontent子导航 字体 */
+
 .maincontent div#nav-tab a {
   color: #b45c5c;
 }

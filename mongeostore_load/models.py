@@ -4,7 +4,7 @@ version: v1.0.0
 Author: henggao
 Date: 2020-10-23 21:47:34
 LastEditors: henggao
-LastEditTime: 2022-05-12 10:04:16
+LastEditTime: 2022-05-13 10:22:30
 '''
 # from djongo.models.indexes import TwoDSphereIndex  //模块付费
 from mongoengine import connect
@@ -63,11 +63,6 @@ class DrillInclinationModel(models.Model):
         return self.ZK_num
 
 
-# grid_fs_storage = GridFSStorage(
-#     collection='钻孔元数据GridFS')  # 这里的base_url设置无效
-# grid_fs_storage = GridFSStorage(
-#     collection='钻孔元数据', base_url=''.join(['', '钻孔元数据/']))
-# Define your GrifFSStorage instance
 grid_fs_storage = GridFSStorage(location='', collection='钻孔信息元数据', base_url=''.join(
     ['', '']), database='drill')
 
@@ -151,11 +146,7 @@ class DrillLocation(Document):
     max_depth = FloatField(required=True)
     track_type = StringField(required=True)
     location = PointField()
-    # zk_num = StringField(required=True, max_length=200)
-    # coordinate_E = FloatField(required=True, max_length=50)
-    # coordinate_N = FloatField(required=True, max_length=50)
-    # coordinate_R = FloatField(required=True, max_length=50)
-    # coordniate = ListField()
+
     meta = {'db_alias': 'drill_system',
             'collection': '定位表',
             'indexes': [[("location.coordinates", "2dsphere"), ("datetime", 1)]]}

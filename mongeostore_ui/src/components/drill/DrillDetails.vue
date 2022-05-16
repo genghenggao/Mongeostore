@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-11-27 16:37:40
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-24 09:16:14
+ * @LastEditTime: 2022-05-13 11:06:49
 -->
 <template>
   <el-container style="min-width: 1100px; overflow: hidden">
@@ -23,9 +23,7 @@
       </h2>
     </el-header>
     <el-main style="padding-top: 10px; min-width: 1100px; overflow-y: hidden">
-      <!-- <div style="">
-        <h3>钻孔编号：{{ ZK_num }}</h3>
-      </div> -->
+
       <el-row :gutter="20" style="margin: 0">
         <el-col :span="16" :offset="4">
           <el-tabs :tab-position="tabPosition">
@@ -38,12 +36,7 @@
                       <div v-if="keyword == '钻孔柱状图'">
                         <td class="column" style="">钻孔柱状图</td>
                         <td class="column">
-                          <!-- <el-image
-                            style="width: 60px; height: 60px"
-                            :src="url"
-                            :preview-src-list="srcList"
-                          >
-                          </el-image> -->
+                
                           <img
                             :src="'data:image/png;base64,' + ico"
                             class="avatar"

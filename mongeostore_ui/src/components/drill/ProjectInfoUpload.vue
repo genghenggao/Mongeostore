@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-01 10:40:23
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-01 14:10:05
+ * @LastEditTime: 2022-05-13 11:13:28
 -->F
 <template>
   <el-row :gutter="20"
@@ -86,10 +86,7 @@ export default {
   mounted() {},
   computed: {},
   methods: {
-    //开始上传
-    // FileUplodeOn() {
-    //   this.uploader.start();
-    // },
+
     onSubmit() {
       this.uploader.start();
     },

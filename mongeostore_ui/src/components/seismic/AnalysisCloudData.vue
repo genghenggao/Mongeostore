@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-21 17:33:53
  * @LastEditors: henggao
- * @LastEditTime: 2020-12-23 11:16:57
+ * @LastEditTime: 2022-05-13 14:35:52
 -->
 <template>
   <div class="DataShow">
@@ -60,12 +60,9 @@
             </el-form-item>
           </el-form>
         </section>
-        <!--搜索头 结束-->
-        <!-- <SearchData /> -->
       </el-header>
       <el-main class="data_content">
         <div class="data_table">
-          <!-- 注意里面max-height字段设置高度  tableData放列表数据 -->
           <el-table
             class="tb-edit"
             highlight-current-row
@@ -99,8 +96,6 @@
             <el-table-column label="下载进度" style="text-align: center">
               <h2>防止按钮消失</h2>
               <template slot-scope="scope">
-                <!-- {{ scope.row["progressNum"] }} -->
-                <!-- <div v-show="progressFlag" class="head-img"> -->
                 <el-progress
                   type="circle"
                   :percentage="scope.row['progressNum']"
@@ -141,16 +136,13 @@
           >
           </el-pagination>
         </div>
-        <!-- 下面这个用来设置点击添加按钮的弹出框，里面可以进行嵌套表格来展示弹出的表格信息,使用下面的:visible.sync来控制显示与否。里面绑定的是我们新设置的值，填写完成后，将我们这个新值塞到页面中所有的数据当中去  -->
-        <!-- 添加数据的对话框 -->
+
         <el-dialog
           title="添加数据"
           :visible.sync="dialogVisible"
           width="30%"
           @close="addDialogClosed"
         >
-          <!-- 内容的主体区域 -->
-          <!--去掉:rules="addFormRules" -->
           <el-form
             ref="addFormRef"
             :model="add_to_data"
@@ -158,14 +150,7 @@
             label-width="120px"
           >
             <template v-for="(item, key) of addForm">
-              <!-- <el-form-item
-                v-if="key == '_id'"
-                :label="key"
-                :prop="key"
-                :key="key"
-              >
-                <el-input v-model="addForm[key]"></el-input>
-              </el-form-item> -->
+     
               <el-form-item
                 v-if="key !== 'id' && key !== 'location'"
                 :label="key"
@@ -186,7 +171,6 @@
 import axios from "axios";
 import qs from "qs";
 
-// import SearchData from "@/components/SearchData.vue";
 export default {
   name: "AnalysisCloudData",
   components: {
@@ -315,10 +299,7 @@ export default {
         track_type: "曲",
         coordinate_lng: "",
         coordinate_lat: "",
-        // location: {
-        //   type: "Point",
-        //   coordinates: [],
-        // },
+ 
       },
       // 添加数据框的字段,用来判断是否为空，确定按钮
       add_to_data: {
@@ -330,10 +311,7 @@ export default {
         track_type: "曲",
         coordinate_lng: "",
         coordinate_lat: "",
-        // location: {
-        //   type: "Point",
-        //   coordinates: [],
-        // },
+ 
       },
       // 通过add_button_state值判断确定按钮是否激活
       add_button_state: false,
@@ -416,7 +394,7 @@ export default {
   },
   created() {
     this.showData(this.PageSize, this.currentPage); //展示Collection表格数据
-    // this.onSearchSubmit(this.PageSize, this.currentPage); //展示Collection表格数据
+
   },
   mounted() {},
   methods: {
@@ -433,10 +411,7 @@ export default {
           },
         })
         .then((response) => {
-          // var res = JSON.parse(response.bodyText);
-          // console.log(response);
-          //   console.log(response.data);
-          //   console.log(response.data.data);
+    
 
           this.tableData = response.data.data.list;
           //   console.log(response.data.data.list);
@@ -451,11 +426,7 @@ export default {
           var newcols = [
             { label: "文件名称", prop: "seismic_filename" },
             { label: "研究区域", prop: "location" },
-            // { label: "项目名称", prop: "project_name" },
-            // { label: "单位名称", prop: "company_name" },
-            // { label: "上传人员", prop: "uploader" },
-            // { label: "上传时间", prop: "seismic_upload_date" },
-            // { label: "钻孔柱状图", prop: "zk_histogram" },
+
           ];
 
           this.cols = newcols;
@@ -506,15 +477,7 @@ export default {
       if (row.isEdit) {
         // 点击保存的
         this.$delete(row, "isEdit");
-        // console.log("开始delete");
-        // console.log(index, row); //把row发送给后端
-        // console.log(row["_id"]["$oid"]); //把row发送给后端
-        // row["id"] = row["_id"]["$oid"];
-        // row["help_param"] = "help_param"; //用于解决后端smscode参数为3019"}多了"}问题
-        // let postData = qs.stringify(row); // w为了解决后端拿不到数据问题
-        // postData["_id"] = row["_id"]["$oid"];
-        // console.log(typeof postData);
-        // console.log(row["id"]);
+
         let json_data = JSON.stringify(row);
 
         const url = "http://127.0.0.1:8000/seismic/editseismicinfo/";
@@ -547,10 +510,8 @@ export default {
       } else {
         // 点击编辑
         this.$set(row, "isEdit", true);
-        // console.log("开始set");
-        // console.log(index, row);
+
       }
-      // console.log(this.tableData);s
     },
     // 删除按钮
     deleteRow(index, rows, row) {
@@ -583,9 +544,6 @@ export default {
             )
             .then((res) => {
               console.log("删除成功");
-              // 重新获取用户列表数据
-              // this.showData();
-              //通过flag判断,刷新数据
               if (!this.flag) {
                 this.showData(this.PageSize, this.currentPage);
               } else {
@@ -603,13 +561,10 @@ export default {
     // 开始搜索
     onSearchSubmit(n1, n2) {
       this.currentPage = n2;
-      // this.initAdminList(1);
       if (this.searchCondition.filter_key == "") {
         this.$message.warning("查询条件不能为空！");
         return;
       } else {
-        // console.log(this.searchCondition.filter_key);
-        // console.log(this.$store.state.temp_database);
         let filter_key_data = this.searchCondition.filter_key;
         const url = "http://127.0.0.1:8000/seismic/seismicinfosearch/";
         axios
@@ -643,13 +598,11 @@ export default {
       console.log(index, row);
     },
     // 分页
-    // 每页显示的条数
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       // 改变每页显示的条数
       this.PageSize = val;
       // 点击每页显示的条数时，显示第一页
-      // this.showData(val, 1);
       if (!this.flag) {
         this.showData(val, 1); // this.pageSize是undefined，使用选定的或默认值
       } else {
@@ -657,7 +610,6 @@ export default {
       }
       // 注意：在改变每页显示的条数时，要将页码显示到第一页
       this.currentPage = 1;
-      // this.handleCurrentChange(this.currentPage);
     },
     // 监听 pageSize 改变的事件，显示第几页
     handleCurrentChange(val) {
@@ -685,8 +637,6 @@ export default {
         );
         // 给后端发数据
         ws.onopen = function () {
-          // Web Socket 已连接上，使用 send() 方法发送数据
-          //   ws.send("发送数据");
           ws.send(row.id);
           //   alert("数据发送中...");
         };
@@ -694,13 +644,9 @@ export default {
         var that = this;
         ws.onmessage = function (evt) {
           var received_msg = evt.data;
-          //   alert("数据已接收...");
-          //   alert("数据:" + received_msg);
           var json_data = eval("(" + received_msg + ")");
           console.log(json_data["percent"]);
-          //   this.progressNum = json_data["percent"];
-          //   temp_data = {};
-          //   console.log(index, row);
+    
           this.progressNum = 0 + json_data["percent"];
           row.progressNum = 0 + this.progressNum;
           row = {
@@ -710,31 +656,14 @@ export default {
             progressNum: this.progressNum,
           };
           console.log(row);
-        //   console.log(this);
-        //   console.log(that);
           that.tableData = [row];
-          //   return row;
-          //   this.$set(this.tableData, index, row);
-          //   this.$set(this.tableData,index,temp_data)
-          //   this.fresh = false;
-          //   this.$nextTick(() => {
-          //     this.fresh = true;
-          //   });
-          //   this.startTimer = setInterval(() => {
-          //     this.progressNum++;
-          //     if (this.progressNum > 85) {
-          //       clearInterval(this.startTimer);
-          //     }
-          //   }, 100);
-          //   console.log(this.progressNum);
+ 
           if (json_data["percent"] == 100) {
             console.log("完成");
             ws.close(); //关闭websocket
           }
         };
-        // Call onopen directly if socket is already open
         if (ws.readyState == WebSocket.OPEN) ws.onopen();
-        // this.ws = ws;
       } else {
         // 浏览器不支持 WebSocket
         alert("您的浏览器不支持 WebSocket!");
@@ -748,25 +677,15 @@ export default {
 /* 全局样式 */
 </style>
 <style lang="scss" scoped>
-/* 本地样式 */
-// 设置真个数据内容的大小
-// .DataShow {
-//   // height: 775px;
-//   // height: 810px;
-// }
+
 // 设置搜索框的大小
 .data_search {
   height: 45px !important;
 }
-// 设置表格数据大小，表格+分页
-// .data_content {
-//   // height: 680px !important;
-//   // overflow: auto;
-// }
+
 // 设置表格数据大小
 .data_table {
   height: 400px !important; //注意这个高度和table中max-height="620px"对应,避免部分内容展示不出来
-  //   overflow: auto;
 }
 // 搜索设置
 #search-title {
@@ -785,16 +704,13 @@ export default {
 .block {
   padding-top: 15px;
 }
-// .el-scrollbar__wrap {
-//   overflow-x: hidden; //设置滚动条隐藏
-// }
+
 
 ::v-deep .el-progress-circle {
   height: 40px !important;
   width: 40px !important;
 }
 ::v-deep .el-progress__text {
-  //   width: 5px !important;
   font-size: 1px !important;
 }
 ::v-deep .cell {

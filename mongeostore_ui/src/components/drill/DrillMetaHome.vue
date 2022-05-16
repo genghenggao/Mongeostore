@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-02 18:57:20
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-24 09:47:51
+ * @LastEditTime: 2022-05-13 11:11:14
 -->
 <template>
   <div class="drillmetahome" style="height: 800px">
@@ -18,9 +18,7 @@
 </template>
 
 <script>
-// import Home from "@/views/Home.vue";
-// import Navbar from "@/components/Navbar.vue";
-// import Footbar from "@/components/Footbar.vue";
+
 
 export default {
   name: "HomePage",
@@ -34,9 +32,7 @@ export default {
 <style lang="scss" scoped>
 .carousel {
   width: 1000px;
-  //   left: 500px;
-  //   top: 150px;
-  //   设置轮播图剧中
+
   margin: auto;
   position: relative;
   top: 150px;
@@ -48,11 +44,7 @@ export default {
   height: 450px;
   filter: brightness(50%); //设置图片对比度
 }
-// .jumbotron {
-//   //   设置轮播图剧中
-//   top: 550px;
-// }
-// 重写Footbar.vue中的位置
+
 .footer {
   position: absolute;
 }

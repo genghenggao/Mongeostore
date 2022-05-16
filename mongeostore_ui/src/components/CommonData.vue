@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-11-18 21:39:35
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-26 21:21:02
+ * @LastEditTime: 2022-05-13 11:00:56
 -->
 <template>
   <div class="DataShow">
@@ -164,14 +164,7 @@
             label-width="100px"
           >
             <template v-for="(item, key) of addForm">
-              <!-- <el-form-item
-                v-if="key == '_id'"
-                :label="key"
-                :prop="key"
-                :key="key"
-              >
-                <el-input v-model="addForm[key]"></el-input>
-              </el-form-item> -->
+  
               <el-form-item
                 v-if="key !== '_id'"
                 :label="key"
@@ -180,15 +173,7 @@
               >
                 <el-input v-model="add_to_data[key]"></el-input>
               </el-form-item>
-              <!-- <el-form-item label="密码" prop="password">
-              <el-input v-model="addForm.password"></el-input>
-            </el-form-item>
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="addForm.email"></el-input>
-            </el-form-item>
-            <el-form-item label="手机号" prop="mobile">
-              <el-input v-model="addForm.mobile"></el-input>
-            </el-form-item> -->
+           
             </template>
           </el-form>
           <!-- 底部区域 -->
@@ -372,73 +357,39 @@ export default {
           if (!response.data.length == 0) {
             this.tableData = response.data;
           }
-          // console.log("取到单个数据");
-          // console.log(typeof response.data);
-          // let detailsnew = JSON.parse(JSON.stringify(this.detailslist));
-          // var datatset = [];
-          // datatset.push(response.data);
-          // console.log(typeof datatset);
-          // console.log(datatset);
-          // datatset = response.data
-          // console.log(datatset)
-          // console.log(this.tableData)
-          // console.log(typeof this.tableData)
-          // this.tableData = datatset;
-          // 将数据赋值给tableData
-          // this.tableData = response.data;
-          // this.tableData = this.$store.state.colData;
-          // this.searchCondition = response.data;
-          // 分页所需信息
-          // 将数据的长度赋值给totalCount
-          // this.totalCount = response.data.length; //分页总数
+   
           this.totalCount = this.tableData.length; //分页总数
           //渲染表格,根据值
           this.currentChangePage(this.tableData);
-          //页面初始化数据需要判断是否检索过
-          // console.log(this.tableData);
-          // console.log(typeof this.tableData);
-          // 获取字段信息
-          // this.cols = ""
+
           let tmp = this.tableData[0];
           // console.log(tmp);
           var listcol = [];
           for (var key in tmp) {
-            //  { label: "节点编号_id", prop: "_id.$oid", nickname: "normal" },
-            //   console.log(key);
-            //   console.log(typeof key);
-            // console.log(key[1])
+   
             listcol.push({
               label: key,
               prop: key,
               // Depth: "normal",
             });
           }
-          // console.log(listcol);
-          // listcol[0].prop = "_id.$oid"; //_id是一个对象，取值
+
           listcol[0].prop = "_id"; //_id是一个对象，取值，使用这个为了取值
           listcol.splice(0, 1); //去掉_id、ZK_num字段,自己在页面添加，为了更好的遍历
-          // console.log(listcol);
-          // listcol[6].nickname = "sort"; //按字段设置排序
-          // listcol[0].Depth = "sort"; //按字段设置排序
+
           this.cols = listcol;
 
           // 添加数据设置字段
-          // delete tmp._id; //删除_id字段，
           this.addForm = tmp;
-          // this.addForm = JSON.parse(tmp_addForm) //数组转json
-          // console.log(this.addForm); //Object
-          // console.log(typeof this.addForm);
-          // 生成一个筛选字段ZKX，赋值给filter_data
+
           let tem_list = [];
           for (let i = 0; i < 55; i++) {
             // const element = array[i];
             let ZK = "ZK";
             let ZKX = ZK + i;
-            // {text:"ZKX",value;"ZKX"}
             let json_data = { text: ZKX, value: ZKX };
             tem_list.push(json_data);
           }
-          // console.log(tem_list);
           this.filter_data = tem_list;
         })
         .catch(() => {
@@ -465,7 +416,6 @@ export default {
 
     // 点击按钮，添加数据
     addData() {
-      // this.addForm.visible = true;
       // 发送添加数据的网络请求
       const url = "http://127.0.0.1:8000/load/commonadd_data/";
       let tmp_data = this.add_to_data;
@@ -498,20 +448,11 @@ export default {
     },
     // 编辑（修改）按钮
     handleEdit(index, row) {
-      // console.log(index, row);
       // 动态设置数据并通过这个数据判断显示方式
       if (row.isEdit) {
         // 点击保存的
         this.$delete(row, "isEdit");
-        // console.log("开始delete");
-        // console.log(index, row); //把row发送给后端
-        // console.log(row["_id"]["$oid"]); //把row发送给后端
-        // row["id"] = row["_id"]["$oid"];
-        // row["help_param"] = "help_param"; //用于解决后端smscode参数为3019"}多了"}问题
-        // let postData = qs.stringify(row); // w为了解决后端拿不到数据问题
-        // postData["_id"] = row["_id"]["$oid"];
-        // console.log(typeof postData);
-        // console.log(row["id"]);
+  
         let json_data = JSON.stringify(row);
 
         const url = "http://127.0.0.1:8000/load/commoneditdata/";
@@ -519,7 +460,6 @@ export default {
           .post(
             url,
             {
-              // data: JSON.stringify(row) //data用于post请求
               json_data,
               // 设置上传到后端的数据库和集合名称
               colname: this.$store.state.title_message,
@@ -536,10 +476,8 @@ export default {
       } else {
         // 点击编辑
         this.$set(row, "isEdit", true);
-        // console.log("开始set");
-        // console.log(index, row);
+      
       }
-      // console.log(this.tableData);s
     },
     // 删除按钮
     deleteRow(index, rows, row) {
@@ -572,9 +510,6 @@ export default {
             )
             .then((res) => {
               console.log("删除成功");
-              // 重新获取用户列表数据
-              // this.showData();
-              //通过flag判断,刷新数据
               if (!this.flag) {
                 this.showData();
               } else {
@@ -619,20 +554,7 @@ export default {
             var count = Object.keys(response.data).length;
             console.log(count);
             this.totalCount = count;
-            // tmp_count = (count%10+1)*10
-            // let countarr = [];
-            // for (let i = 0; i < (count % 10) + 1; i++) {
-            //   const tencount = (i + 1) * 10;
-            //   countarr.push(tencount);
-            // }
-            // // 个数选择器（可修改）
-            // // console.log(countarr);
-            // this.pageSizes = countarr; //有个小意外，这个地方设置了，变不回去了
-            // this.orgCode = 1;
-            // // 每页显示的条数
-            // this.PageSize = 10;
-            // // 显示第几页
-            // this.currentPage = 1;
+      
           } else {
             // alert("输入有误或数据不存在");
             this.$message.warning("输入有误或数据不存在");
@@ -653,7 +575,6 @@ export default {
       // 改变每页显示的条数
       this.PageSize = val;
       // 点击每页显示的条数时，显示第一页
-      // this.showData(val, 1);
       if (!this.flag) {
         this.showData(val, 1); // this.pageSize是undefined，使用选定的或默认值
       } else {
@@ -669,20 +590,12 @@ export default {
       // 改变默认的页数
       this.currentPage = val;
       // 切换页码时，要获取每页显示的条数
-      // console.log(this.pageSize);
-      // this.showData(this.PageSize, val * this.pageSize);
+   
       if (!this.flag) {
         this.showData(this.PageSize, val); // this.pageSize是undefined，使用选定的或默认值
       } else {
         this.onSearchSubmit(this.pageSize, val);
       }
-      //需要判断是否检索
-      // if (!this.flag) {
-      //   //tableDataBegin不能写成tableDataEnd，不然在没有进行搜索功能的时候，不能进行分页操作，数据丢失
-      //   this.currentChangePage(this.tableDataBegin);
-      // } else {
-      //   this.currentChangePage(this.filterTableDataEnd);
-      // }
     },
     //组件自带监控当前页码
     currentChangePage(list) {

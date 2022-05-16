@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-01 08:57:34
  * @LastEditors: henggao
- * @LastEditTime: 2021-03-24 09:44:06
+ * @LastEditTime: 2022-05-13 11:11:21
 -->
 
 <template>
@@ -102,11 +102,7 @@
             role="tabpanel"
             aria-labelledby="nav-uploadfile-tab"
           >
-            <!-- <UploadFile /> -->
-            <!-- <UploadCSV /> -->
-            <!-- <UploadExcel /> -->
-            <!-- <CommonUploadExcel /> -->
-            <!-- <CommonUploadCSV /> -->
+
             <DrillUpload />
           </div>
         </div>

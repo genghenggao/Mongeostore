@@ -4,7 +4,7 @@
  * @Author: henggao
  * @Date: 2020-12-16 15:37:36
  * @LastEditors: henggao
- * @LastEditTime: 2021-01-05 19:56:28
+ * @LastEditTime: 2022-05-13 11:15:43
 -->
 <template>
   <div>
@@ -20,7 +20,6 @@
 import * as echarts from "echarts/lib/echarts";
 import china from "echarts/map/js/china.js";
 // import china from "@/assets/js/china.js";
-// var echarts = require("echarts");
 export default {
   name: "SeismicProfile",
   data() {
@@ -33,10 +32,7 @@ export default {
   mounted() {
     // 引入china.json
     this.showDataResource();
-    // let script = document.createElement("script");
-    // script.type = "text/javascript";
-    // script.src = "https://gallerybox.echartsjs.com/dep/echarts/map/js/china.js";
-    // document.body.appendChild(script);
+
   },
 
   watch: {},

@@ -4,14 +4,10 @@
  * @Author: henggao
  * @Date: 2020-10-06 17:05:32
  * @LastEditors: henggao
- * @LastEditTime: 2020-11-03 16:45:58
+ * @LastEditTime: 2022-05-13 10:54:17
 -->
 <template>
   <div>
-    <!-- <el-card class="card-back-color card1"> -->
-    <!-- <div class="baidu-title">
-        <h4>百度地图API</h4>
-      </div> -->
     <baidu-map :center="center" :zoom="zoom" @ready="handler" class="map">
       <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
       <bm-navigation anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-navigation>

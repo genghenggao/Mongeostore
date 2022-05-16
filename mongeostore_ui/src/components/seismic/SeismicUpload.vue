@@ -1,19 +1,3 @@
-<!--
- * @Description: henggao_learning
- * @version: v1.0.0
- * @Author: henggao
- * @Date: 2020-12-16 22:12:40
- * @LastEditors: henggao
- * @LastEditTime: 2020-12-16 22:25:14
--->
-<!--
- * @Description: henggao_learning
- * @version: v1.0.0
- * @Author: henggao
- * @Date: 2020-12-01 10:13:35
- * @LastEditors: henggao
- * @LastEditTime: 2020-12-01 11:06:53
--->
 <template>
   <el-container style="min-width: 1100px; overflow: hidden">
     <el-header>
@@ -31,9 +15,6 @@
       </h2>
     </el-header>
     <el-main style="padding-top: 10px; min-width: 1100px; overflow: hidden">
-      <!-- <div style="">
-        <h3>钻孔编号：{{ ZK_num }}</h3>
-      </div> -->
       <el-row :gutter="20" style="margin: 0">
         <el-col :span="16" :offset="4">
           <el-tabs :tab-position="tabPosition">
@@ -61,8 +42,6 @@ export default {
   name: "SeismicUpload",
   components: {
     SeismicMetaUpload,
-    // ProjectInfoUpload,
-    // CompanyInfoUpload,
   },
   data() {
     return {
